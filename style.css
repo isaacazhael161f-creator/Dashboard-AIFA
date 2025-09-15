@@ -1,311 +1,242 @@
 /* style.css */
 
 :root {
-  --bs-primary-rgb: 0, 0, 139; /* Dark Blue */
-  --bs-secondary-rgb: 108, 117, 125;
-  --bs-body-font-family: 'Roboto', sans-serif;
+    --bs-primary-rgb: 0, 0, 139; /* Dark Blue */
+    --bs-secondary-rgb: 108, 117, 125;
+    --bs-body-font-family: 'Roboto', sans-serif;
 }
 
 body {
-  background-color: #f8f9fa;
-} 
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+}
 
-/* Login Screen */
+/* --- Pantalla de Login --- */
 .login-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #00008B 0%, #000066 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #00008B 0%, #000066 100%);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
 }
-
 .login-container {
-  background: white;
-  border-radius: 15px;
-  padding: 2.5rem;
-  width: 90%;
-  max-width: 450px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  text-align: center;
+    background: white; border-radius: 15px; padding: 2.5rem;
+    width: 90%; max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
-
 .login-logo {
-  width: 90px; /* Tamaño más pequeño para el logo */
-  height: 90px; /* Tamaño más pequeño para el logo */
-  object-fit: contain; /* Asegura que la imagen se vea completa dentro del espacio */
-  margin-bottom: 1rem;
-  border-radius: 50%;
-  border: 4px solid #00008B;
-  padding: 5px; /* Ajustado el padding */
-  background: #f8f9fa;
+    width: 90px; height: 90px;
+    object-fit: contain; margin-bottom: 1rem;
+    border-radius: 50%; border: 4px solid #00008B;
+    padding: 5px; background: #f8f9fa;
 }
 
-/* Main App */
+/* --- Aplicación Principal --- */
 .header {
-  background: #fff;
-  border-bottom: 1px solid #dee2e6;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background: #fff; border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
-
-.aifa-logo {
-  width: 150px;
-}
-
-.header-logo {
-  height: 50px;
-}
-
-.main-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #212529;
-}
+.aifa-logo { width: 150px; }
+.header-logo { height: 50px; }
+.main-title { font-size: 1.5rem; font-weight: 700; color: #212529; }
+.gob-logo { height: 40px; }
 
 .formal-clock-container {
-  text-align: center;
-  background-color: #f8f9fa;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid #dee2e6;
+    text-align: center; background-color: #f8f9fa;
+    padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #dee2e6;
+}
+.clock-label { font-size: 0.7rem; font-weight: 600; color: #6c757d; text-transform: uppercase; }
+.formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.2rem; color: #00008B; }
+
+/* --- Barra de Navegación Horizontal --- */
+.top-nav {
+    background: linear-gradient(180deg, #00008B 0%, #000050 100%);
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-.clock-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #6c757d;
-  text-transform: uppercase;
-}
-
-.formal-clock {
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #00008B;
-}
-
-.sidebar {
-  background: linear-gradient(180deg, #00008B 0%, #000050 100%);
-  color: white;
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border-left: 4px solid transparent;
-}
-
-.menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-.menu-item.active {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
-  font-weight: 500;
-  border-left: 4px solid #0d6efd;
-}
-
-.menu-item i {
-  margin-right: 10px;
-}
-
-.logout-item {
-  margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.content-section {
-  display: none !important;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.content-section.active {
-  display: block !important;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card-header h2, .card-header h3 {
-  color: var(--bs-primary);
-}
-
-.hidden {
-  display: none !important;
-}
-
-.modal-body iframe {
-  width: 100%;
-  height: 75vh;
-}
-
-.table-total-row {
-  background-color: #e0d9c6;
-  font-weight: bold;
-}
-
-.pdf-preview-item h5 {
-  font-weight: 500;
-  color: var(--bs-primary);
-}
-
-.pdf-preview-container {
-  height: 450px;
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  position: relative;
-}
-
-.pdf-preview-container iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.table-stylish thead {
-    background-color: #00008B;
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-}
-
-.table-stylish th, .table-stylish td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.table-stylish tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.table-stylish .text-end {
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-}
-
-.table-stylish tfoot.table-stylish-footer {
-  background-color: #e9ecef;
-  font-weight: bold;
-  color: #000;
-  border-top: 2px solid #adb5bd;
-}
-
-#itinerary-table-container thead {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.pdf-zoom-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.menu-item.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 1rem 1.25rem;
     text-decoration: none;
-    transition: background-color 0.2s ease;
+    transition: all 0.3s ease;
+    border-bottom: 4px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.pdf-zoom-btn:hover {
-    background-color: rgba(0, 0, 139, 0.8);
+.menu-item.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
 }
 
-.pdf-lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+.menu-item.nav-link.active {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: 500;
+    border-bottom: 4px solid #0d6efd;
 }
 
-.pdf-lightbox.hidden {
-    display: none;
+.logout-item.nav-link {
+    color: #ffc107;
+}
+.logout-item.nav-link:hover {
+    color: #fff;
+    background-color: #dc3545;
 }
 
-.lightbox-content {
-    width: 100%;
-    height: 100%;
-    max-width: 1200px;
-}
-
-.lightbox-content iframe {
-    width: 100%;
-    height: 100%;
+/* Estilo para el botón de hamburguesa */
+.navbar-toggler {
     border: 2px solid white;
 }
-
-.lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 2.5rem;
+.navbar-toggler .fa-bars {
     color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
+    font-size: 1.5rem;
 }
 
-#filter-controls {
-    background-color: #e9ecef;
-    border: 1px solid #dee2e6;
+/* --- Contenido Principal --- */
+.main-content {
+    width: 100%;
+    overflow-y: auto;
+    height: calc(100vh - 190px); 
+}
+.content-section { display: none; animation: fadeIn 0.5s ease-in-out; }
+.content-section.active { display: block; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
+.card-header h2, .card-header h3 { color: var(--bs-primary); }
+.hidden { display: none !important; }
+
+/* --- Tablas --- */
+.table-stylish thead {
+    background-color: #00008B; color: white; font-weight: 600;
+    text-transform: uppercase; font-size: 0.9rem;
+}
+.table-stylish th, .table-stylish td { padding: 1rem; vertical-align: middle; border-bottom: 1px solid #e9ecef; }
+.table-stylish tbody tr:last-child td { border-bottom: none; }
+.table-stylish .text-end { font-family: 'Courier New', monospace; font-weight: bold; }
+.table-stylish tfoot.table-stylish-footer {
+    background-color: #e9ecef; font-weight: bold; color: #000;
+    border-top: 2px solid #adb5bd;
+}
+#itinerary-table-container thead,
+#passenger-itinerary-container thead,
+#cargo-itinerary-container thead { 
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+}
+.airline-dot {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 50%; margin-right: 8px; vertical-align: middle;
+}
+.table-total-row {
+    background-color: #e0d9c6;
+    font-weight: bold;
+}
 .itinerary-table {
     font-size: 0.85rem;
 }
-
 .itinerary-table .monospace {
     font-family: 'Courier New', monospace;
     font-weight: 600;
 }
 
-.itinerary-table tbody tr {
-    transition: background-color 0.2s ease;
+/* --- Componentes de PDF --- */
+.pdf-container { position: relative; }
+.pdf-zoom-btn {
+    position: absolute; top: 10px; right: 10px; z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 50%;
+    width: 40px; height: 40px;
+    display: flex; justify-content: center; align-items: center;
+    text-decoration: none; transition: background-color 0.2s ease;
+}
+.pdf-zoom-btn:hover { background-color: rgba(0, 0, 139, 0.8); color: white; }
+.pdf-lightbox {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); z-index: 2000;
+    display: flex; justify-content: center; align-items: center; padding: 1rem;
+}
+.lightbox-content { width: 100%; height: 100%; max-width: 1200px; }
+.lightbox-content iframe { width: 100%; height: 100%; border: 2px solid white; }
+.lightbox-close {
+    position: absolute; top: 15px; right: 25px; font-size: 2.5rem;
+    color: white; background: none; border: none; cursor: pointer;
 }
 
-.itinerary-table tbody tr:hover {
-    background-color: #f5f5f5;
-}
+/* ==========================================================================
+   DISEÑO RESPONSIVO - Estilos para Tablets y Móviles (992px o menos)
+   ========================================================================== */
+@media (max-width: 991.98px) {
+    .header .container-fluid > .d-flex {
+        flex-wrap: wrap;
+    }
+    .header-center-content {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .main-title {
+        font-size: 1rem;
+    }
+    .header-logo {
+        display: none;
+    }
+    .formal-clock-container {
+        padding: 0.3rem 0.6rem;
+    }
+    .formal-clock {
+        font-size: 1rem;
+    }
 
-.departure-row {
-    background-color: rgba(248, 249, 250, 0.5);
-    border-bottom: 1px solid #dee2e6 !important;
-}
+    .top-nav .navbar-collapse {
+        background: #000050;
+        margin-top: 0.5rem;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    .menu-item.nav-link {
+        border-bottom: none;
+        border-left: 4px solid transparent;
+        padding: 0.75rem 1rem;
+    }
+    .menu-item.nav-link.active {
+        border-bottom: none;
+        border-left: 4px solid #0d6efd;
+    }
 
-.airline-dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: middle;
+    .main-content {
+        height: calc(100vh - 220px);
+        padding: 1rem;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .download-btn .btn-text {
+        display: none;
+    }
+    .download-btn {
+        width: 40px;
+    }
+
+    .table-stylish, .itinerary-table {
+        font-size: 0.8rem;
+    }
+    .table-stylish th, .table-stylish td {
+        padding: 0.5rem;
+    }
+
+    #delaysChart {
+        max-height: 300px;
+    }
 }
