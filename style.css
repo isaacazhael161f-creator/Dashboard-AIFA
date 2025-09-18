@@ -238,4 +238,22 @@ body {
     #delaysChart {
         max-height: 300px;
     }
+
+@media (max-width: 991.98px) {
+    
+    /* 1. Evita que la tabla desborde la tarjeta y la página */
+    .card {
+        overflow-x: hidden; /* Contiene el scroll horizontal dentro de la tarjeta */
+    }
+
+    /* 2. Mejora el alineamiento de los logos en el encabezado */
+    .header-right-content {
+        flex-shrink: 1; /* Permite que este contenedor se encoja si es necesario */
+        min-width: 100px; /* Asegura un espacio mínimo para que no se comprima demasiado */
+    }
+
+    .main-title {
+        font-size: 0.9rem; /* Un ligero ajuste para títulos largos */
+    }
+}
 }

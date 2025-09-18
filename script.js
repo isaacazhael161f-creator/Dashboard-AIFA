@@ -18,7 +18,7 @@ const passengerAirlines = ["Viva", "Volaris", "Aeromexico", "Mexicana de Aviaci�
 const cargoAirlines = ["MasAir", "China Southerrn", "Lufthansa", "Kalitta Air", "Aerounión", "Emirates Airlines", "Atlas Air", "Silk Way West Airlines", "Cathay Pacific", "United Parcel Service", "Turkish Airlines", "Cargojet Airways", "Air Canada", "Cargolux"];
 
 const airlineColors = {
-    "Viva": "#00b200", "Volaris": "#6f2da8", "Aeromexico": "#00008b", "Mexicana de Aviación": "#a52a2a", "Aerus": "#ff4500", "Arajet": "#00ced1",
+    "Viva": "#00b200", "Volaris": "#6f2da8", "Aeromexico": "#00008b", "Mexicana de Aviación": "#a52a2a", "Aeurus": "#ff4500", "Arajet": "#00ced1",
     "MasAir": "#4682b4", "China Southerrn": "#c71585", "Lufthansa": "#ffcc00", "Kalitta Air": "#dc143c", "Aerounión": "#2e8b57", "Emirates Airlines": "#d4af37", "Atlas Air": "#808080", "Silk Way West Airlines": "#f4a460", "Cathay Pacific": "#006400", "United Parcel Service": "#5f4b32", "Turkish Airlines": "#e81123", "Cargojet Airways": "#f0e68c", "Air Canada": "#f00", "Cargolux": "#00a0e2"
 };
 
@@ -133,6 +133,7 @@ function applyFilters() {
         passengerFlights = passengerFlights.filter(flight => 
             flight.banda_reclamo && flight.banda_reclamo.toLowerCase().includes(claimFilterValue)
         );
+         // El filtro de banda no se aplica a la carga, ya que no tienen esa columna.
     }
 
     displayPassengerTable(passengerFlights);
@@ -152,21 +153,21 @@ function displaySummaryTable(flights) {
 
     const container = document.getElementById('summary-table-container');
     let tableHtml = `<table class="table table-sm table-striped table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Aerolínea</th>
-                                    <th class="text-center">Llegadas</th>
-                                    <th class="text-center">Salidas</th>
-                                </tr>
-                            </thead>
-                            <tbody>`;
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Aerolínea</th>
+                                        <th class="text-center">Llegadas</th>
+                                        <th class="text-center">Salidas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
     for (const airline in summary) {
         const color = airlineColors[airline] || '#dee2e6';
         tableHtml += `<tr>
-                        <td><span class="airline-dot" style="background-color: ${color};"></span> ${airline}</td>
-                        <td class="text-center">${summary[airline].llegadas}</td>
-                        <td class="text-center">${summary[airline].salidas}</td>
-                      </tr>`;
+            <td><span class="airline-dot" style="background-color: ${color};"></span> ${airline}</td>
+            <td class="text-center">${summary[airline].llegadas}</td>
+            <td class="text-center">${summary[airline].salidas}</td>
+        </tr>`;
     }
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
