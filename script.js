@@ -12,14 +12,31 @@ const dashboardData = {
     }
 };
 
-let allFlightsData = [];
+let allFlightsData = []; // Variable global para guardar los datos de los vuelos
 
-const passengerAirlines = ["Viva", "Volaris", "Aeromexico", "Mexicana de Aviación", "Aeurus", "Arajet"];
-const cargoAirlines = ["MasAir", "China Southerrn", "Lufthansa", "Kalitta Air", "Aerounión", "Emirates Airlines", "Atlas Air", "Silk Way West Airlines", "Cathay Pacific", "United Parcel Service", "Turkish Airlines", "Cargojet Airways", "Air Canada", "Cargolux"];
-
+// Paleta de colores para las aerolíneas
 const airlineColors = {
-    "Viva": "#00b200", "Volaris": "#6f2da8", "Aeromexico": "#00008b", "Mexicana de Aviación": "#a52a2a", "Aeurus": "#ff4500", "Arajet": "#00ced1",
-    "MasAir": "#4682b4", "China Southerrn": "#c71585", "Lufthansa": "#ffcc00", "Kalitta Air": "#dc143c", "Aerounión": "#2e8b57", "Emirates Airlines": "#d4af37", "Atlas Air": "#808080", "Silk Way West Airlines": "#f4a460", "Cathay Pacific": "#006400", "United Parcel Service": "#5f4b32", "Turkish Airlines": "#e81123", "Cargojet Airways": "#f0e68c", "Air Canada": "#f00", "Cargolux": "#00a0e2"
+    "Viva": "#00b200", // Verde
+    "Volaris": "#6f2da8", // Morado
+    "Aeromexico": "#00008b", // Azul Oscuro
+    "Mexicana de Aviación": "#a52a2a", // Marrón
+    "Aeurus": "#ff4500", // NaranjaRojo
+    "Arajet": "#00ced1", // Turquesa
+    // Carga
+    "MasAir": "#4682b4", // Azul Acero
+    "China Southerrn": "#c71585", // Rojo Violeta
+    "Lufthansa": "#ffcc00", // Amarillo
+    "Kalitta Air": "#dc143c", // Carmesí
+    "Aerounión": "#2e8b57", // Verde Mar
+    "Emirates Airlines": "#d4af37", // Dorado
+    "Atlas Air": "#808080", // Gris
+    "Silk Way West Airlines": "#f4a460", // Arena
+    "Cathay Pacific": "#006400", // Verde Oscuro
+    "United Parcel Service": "#5f4b32", // Marrón UPS
+    "Turkish Airlines": "#e81123", // Rojo Turquía
+    "Cargojet Airways": "#f0e68c", // Caqui
+    "Air Canada": "#f00", // Rojo
+    "Cargolux": "#00a0e2" // Azul Cargolux
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -27,22 +44,27 @@ document.addEventListener('DOMContentLoaded', function() {
     renderDelaysChart();
     loadItineraryData();
 
+    // Listeners de eventos
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('sidebar-nav').addEventListener('click', handleNavigation);
     document.getElementById('airline-filter').addEventListener('change', applyFilters);
     document.getElementById('claim-filter').addEventListener('input', applyFilters);
 
+    // Lógica para la animación de botones de descarga
     const downloadButtons = document.querySelectorAll('.download-btn');
     downloadButtons.forEach(button => {
         button.addEventListener('click', function() {
             const icon = button.querySelector('i');
             const text = button.querySelector('.btn-text');
             if (!icon || !text) return;
+
             const originalIconClass = icon.className;
             const originalText = text.textContent;
+
             icon.className = 'fas fa-spinner fa-spin me-2';
             text.textContent = 'Descargando...';
             button.classList.add('disabled');
+
             setTimeout(() => {
                 icon.className = originalIconClass;
                 text.textContent = originalText;
@@ -51,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Lógica para el zoom de PDFs (Lightbox)
     const lightbox = document.getElementById('pdf-lightbox');
     const lightboxContent = document.getElementById('lightbox-content');
     const lightboxClose = document.getElementById('lightbox-close');
@@ -89,12 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
+    // Reloj y fecha
     updateClock();
     updateDate();
     setInterval(updateClock, 1000);
     setInterval(updateDate, 60000);
+
+    // Sesión
     checkSession();
 });
+
 
 async function loadItineraryData() {
     try {
@@ -103,15 +131,17 @@ async function loadItineraryData() {
         
         allFlightsData = await response.json();
         
+        // ORDENAMIENTO ELIMINADO PARA MANTENER EL ORDEN DEL ARCHIVO
+        
         displaySummaryTable(allFlightsData);
-        populateAirlineFilter();
-        applyFilters();
+        displayItineraryTable(allFlightsData);
+        populateAirlineFilter(allFlightsData);
 
     } catch (error) {
         console.error("No se pudo cargar el archivo de itinerario:", error);
-        const container = document.getElementById('passenger-itinerary-container');
+        const container = document.getElementById('itinerary-table-container');
         if(container) {
-            container.innerHTML = `<div class="alert alert-danger">Error al cargar los datos del itinerario.</div>`;
+            container.innerHTML = `<div class="alert alert-danger">Error al cargar los datos del itinerario. Verifica que el archivo <code>data/itinerario.json</code> exista y que la página se esté ejecutando desde un servidor local.</div>`;
         }
     }
 }
@@ -120,24 +150,21 @@ function applyFilters() {
     const selectedAirline = document.getElementById('airline-filter').value;
     const claimFilterValue = document.getElementById('claim-filter').value.trim().toLowerCase();
 
-    let filteredData = allFlightsData;
+    let filteredFlights = allFlightsData;
 
+    // Filtrar por aerolínea
     if (selectedAirline !== 'all') {
-        filteredData = filteredData.filter(flight => flight.aerolinea === selectedAirline);
+        filteredFlights = filteredFlights.filter(flight => flight.aerolinea === selectedAirline);
     }
 
-    let passengerFlights = filteredData.filter(f => passengerAirlines.includes(f.aerolinea));
-    let cargoFlights = filteredData.filter(f => cargoAirlines.includes(f.aerolinea));
-
+    // Filtrar por banda de reclamo
     if (claimFilterValue !== '') {
-        passengerFlights = passengerFlights.filter(flight => 
+        filteredFlights = filteredFlights.filter(flight => 
             flight.banda_reclamo && flight.banda_reclamo.toLowerCase().includes(claimFilterValue)
         );
-         // El filtro de banda no se aplica a la carga, ya que no tienen esa columna.
     }
 
-    displayPassengerTable(passengerFlights);
-    displayCargoTable(cargoFlights);
+    displayItineraryTable(filteredFlights);
 }
 
 function displaySummaryTable(flights) {
@@ -153,105 +180,81 @@ function displaySummaryTable(flights) {
 
     const container = document.getElementById('summary-table-container');
     let tableHtml = `<table class="table table-sm table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Aerolínea</th>
-                                        <th class="text-center">Llegadas</th>
-                                        <th class="text-center">Salidas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Aerolínea</th>
+                                <th class="text-center">Llegadas</th>
+                                <th class="text-center">Salidas</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
     for (const airline in summary) {
         const color = airlineColors[airline] || '#dee2e6';
         tableHtml += `<tr>
-            <td><span class="airline-dot" style="background-color: ${color};"></span> ${airline}</td>
-            <td class="text-center">${summary[airline].llegadas}</td>
-            <td class="text-center">${summary[airline].salidas}</td>
-        </tr>`;
+                        <td><span class="airline-dot" style="background-color: ${color};"></span> ${airline}</td>
+                        <td class="text-center">${summary[airline].llegadas}</td>
+                        <td class="text-center">${summary[airline].salidas}</td>
+                      </tr>`;
     }
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
 }
 
-function displayPassengerTable(flights) {
-    const container = document.getElementById('passenger-itinerary-container');
+function displayItineraryTable(flights) {
+    const container = document.getElementById('itinerary-table-container');
     if (flights.length === 0) {
-        container.innerHTML = `<div class="alert alert-info">No hay vuelos de pasajeros que coincidan con los filtros.</div>`;
+        container.innerHTML = `<div class="alert alert-info mt-3">No hay vuelos que coincidan con los filtros seleccionados.</div>`;
         return;
     }
 
     let tableHtml = `<table class="table table-hover table-sm itinerary-table">
-        <thead class="table-dark">
-            <tr>
-                <th>Aerolínea</th><th>Aeronave</th><th>Vuelo Lleg.</th><th>Origen</th><th>Hora Lleg.</th>
-                <th>Vuelo Sal.</th><th>Destino</th><th>Hora Sal.</th><th>Banda</th><th>Posición</th>
-            </tr>
-        </thead><tbody>`;
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Aerolínea</th>
+                                <th>Aeronave</th>
+                                <th>Vuelo Lleg.</th>
+                                <th>Origen</th>
+                                <th>Hora Lleg.</th>
+                                <th>Vuelo Sal.</th>
+                                <th>Destino</th>
+                                <th>Hora Sal.</th>
+                                <th>Banda</th>
+                                <th>Posición</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
     flights.forEach(flight => {
         const color = airlineColors[flight.aerolinea] || '#f8f9fa';
         tableHtml += `<tr style="border-left: 4px solid ${color};">
-            <td>${flight.aerolinea}</td><td>${flight.aeronave || '-'}</td>
-            <td class="monospace">${flight.vuelo_llegada || '-'}</td><td>${flight.origen || '-'}</td>
-            <td class="monospace">${flight.hora_llegada || '-'}</td><td class="monospace">${flight.vuelo_salida || '-'}</td>
-            <td>${flight.destino || '-'}</td><td class="monospace">${flight.hora_salida || '-'}</td>
-            <td class="text-center">${flight.banda_reclamo || '-'}</td><td>${flight.posicion || '-'}</td>
-        </tr>`;
+                        <td>${flight.aerolinea}</td>
+                        <td>${flight.aeronave || '-'}</td>
+                        <td class="monospace">${flight.vuelo_llegada || '-'}</td>
+                        <td>${flight.origen || '-'}</td>
+                        <td class="monospace">${flight.hora_llegada || '-'}</td>
+                        <td class="monospace">${flight.vuelo_salida || '-'}</td>
+                        <td>${flight.destino || '-'}</td>
+                        <td class="monospace">${flight.hora_salida || '-'}</td>
+                        <td class="text-center">${flight.banda_reclamo || '-'}</td>
+                        <td>${flight.posicion || '-'}</td>
+                      </tr>`;
     });
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
 }
 
-function displayCargoTable(flights) {
-    const container = document.getElementById('cargo-itinerary-container');
-    if (flights.length === 0) {
-        container.innerHTML = `<div class="alert alert-info">No hay vuelos de carga que coincidan con los filtros.</div>`;
-        return;
-    }
-
-    let tableHtml = `<table class="table table-hover table-sm itinerary-table">
-        <thead class="table-dark">
-            <tr>
-                <th>Aerolínea</th><th>Aeronave</th><th>Vuelo Lleg.</th><th>Origen</th><th>Hora Lleg.</th>
-                <th>Vuelo Sal.</th><th>Destino</th><th>Hora Sal.</th><th>Posición</th>
-            </tr>
-        </thead><tbody>`;
-    flights.forEach(flight => {
-        const color = airlineColors[flight.aerolinea] || '#f8f9fa';
-        tableHtml += `<tr style="border-left: 4px solid ${color};">
-            <td>${flight.aerolinea}</td><td>${flight.aeronave || '-'}</td>
-            <td class="monospace">${flight.vuelo_llegada || '-'}</td><td>${flight.origen || '-'}</td>
-            <td class="monospace">${flight.hora_llegada || '-'}</td><td class="monospace">${flight.vuelo_salida || '-'}</td>
-            <td>${flight.destino || '-'}</td><td class="monospace">${flight.hora_salida || '-'}</td>
-            <td>${flight.posicion || '-'}</td>
-        </tr>`;
-    });
-    tableHtml += `</tbody></table>`;
-    container.innerHTML = tableHtml;
-}
-
-function populateAirlineFilter() {
+function populateAirlineFilter(flights) {
     const filterSelect = document.getElementById('airline-filter');
-    filterSelect.innerHTML = '<option value="all" selected>Todas las aerolíneas</option>';
+    const airlines = [...new Set(flights.map(flight => flight.aerolinea))]; 
+    airlines.sort();
+    
+    filterSelect.innerHTML = '<option value="all" selected>Filtrar por aerolínea...</option>';
 
-    const passengerGroup = document.createElement('optgroup');
-    passengerGroup.label = 'Pasajeros';
-    passengerAirlines.sort().forEach(airline => {
+    airlines.forEach(airline => {
         const option = document.createElement('option');
         option.value = airline;
         option.textContent = airline;
-        passengerGroup.appendChild(option);
+        filterSelect.appendChild(option);
     });
-    filterSelect.appendChild(passengerGroup);
-
-    const cargoGroup = document.createElement('optgroup');
-    cargoGroup.label = 'Carga';
-    cargoAirlines.sort().forEach(airline => {
-        const option = document.createElement('option');
-        option.value = airline;
-        option.textContent = airline;
-        cargoGroup.appendChild(option);
-    });
-    filterSelect.appendChild(cargoGroup);
 }
 
 function handleNavigation(e) {
@@ -264,14 +267,8 @@ function handleNavigation(e) {
 
     if (action === 'logout') {
         logout();
-    } else if (sectionId) {
+    } else {
         showSection(sectionId, target);
-    }
-    
-    const navCollapse = document.getElementById('main-nav');
-    if (navCollapse.classList.contains('show')) {
-        const bsCollapse = new bootstrap.Collapse(navCollapse);
-        bsCollapse.hide();
     }
 }
 
@@ -327,16 +324,10 @@ function logout() {
 
 function showSection(sectionId, element) {
     document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
-    
-    const sectionToShow = document.getElementById(`${sectionId}-section`);
-    if(sectionToShow) {
-        sectionToShow.classList.add('active');
-    }
+    document.getElementById(`${sectionId}-section`).classList.add('active');
     
     document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-    if(element) {
-        element.classList.add('active');
-    }
+    element.classList.add('active');
 }
 
 function updateClock() {
