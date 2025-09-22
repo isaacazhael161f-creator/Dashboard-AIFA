@@ -1,216 +1,168 @@
+/* ==========================================================================
+   Variables de Tema y Estilos Base
+   ========================================================================== */
 :root {
-    --bs-primary-rgb: 0, 0, 139; /* Dark Blue */
-    --bs-secondary-rgb: 108, 117, 125;
-    --bs-body-font-family: 'Roboto', sans-serif;
     --sidebar-width: 240px;
+    --font-family-base: 'Roboto', sans-serif;
+    --font-family-mono: 'Roboto Mono', monospace;
+    --primary-color: #003366;
+    --primary-color-dark: #002244;
+    --primary-color-light: #d6e4f0;
+    --header-bg: #ffffff;
+    --sidebar-bg: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+    --body-bg: #f4f7fc;
+    --card-bg: #ffffff;
+    --text-color: #343a40;
+    --text-muted-color: #6c757d;
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --tech-table-bg: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-mode {
+    --primary-color: #4dabf7;
+    --primary-color-dark: #1e88e5;
+    --primary-color-light: #2c3e50;
+    --header-bg: #1e2a38;
+    --sidebar-bg: linear-gradient(180deg, #1e2a38 0%, #151d27 100%);
+    --body-bg: #151d27;
+    --card-bg: #1e2a38;
+    --text-color: #e8eaed;
+    --text-muted-color: #9aa0a6;
+    --border-color: #3c4043;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --tech-table-bg: rgba(30, 42, 56, 0.7);
 }
 
 body {
-    background-color: #f8f9fa;
+    font-family: var(--font-family-base);
+    background-color: var(--body-bg);
+    color: var(--text-color);
     overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
 }
-
-/* --- Pantalla de Login --- */
-.login-screen {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #00008B 0%, #000066 100%);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 1000;
-}
-.login-container {
-    background: white; border-radius: 15px; padding: 2.5rem;
-    width: 90%; max-width: 450px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    text-align: center;
-}
-.login-logo {
-    width: 90px; height: 90px;
-    object-fit: contain; margin-bottom: 1rem;
-    border-radius: 50%; border: 4px solid #00008B;
-    padding: 5px; background: #f8f9fa;
-}
-
-/* --- Aplicación Principal --- */
-.app-body {
-    display: flex;
-    position: relative;
-}
-.header {
-    background: #fff; border-bottom: 1px solid #dee2e6;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-.aifa-logo { width: 150px; }
-.header-logo { height: 50px; }
-.main-title { font-size: 1.5rem; font-weight: 700; color: #212529; }
-.gob-logo { height: 40px; }
-
-.formal-clock-container {
-    text-align: center; background-color: #f8f9fa;
-    padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #dee2e6;
-}
-.clock-label { font-size: 0.7rem; font-weight: 600; color: #6c757d; text-transform: uppercase; }
-.formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.2rem; color: #00008B; }
-
-/* --- Sidebar (Menú Lateral) --- */
-.sidebar {
-    background: linear-gradient(180deg, #00008B 0%, #000050 100%);
-    color: white;
-    width: var(--sidebar-width);
-    flex-shrink: 0;
-    transition: transform 0.3s ease-in-out;
-}
-.menu-item {
-    display: flex; align-items: center; padding: 0.75rem 1.5rem;
-    color: rgba(255, 255, 255, 0.8); text-decoration: none;
-    transition: all 0.3s ease; border-left: 4px solid transparent;
-}
-.menu-item span {
-    white-space: nowrap;
-    overflow: hidden;
-}
-.menu-item:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
-.menu-item.active {
-    background-color: rgba(0, 0, 0, 0.3); color: white;
-    font-weight: 500; border-left: 4px solid #0d6efd;
-}
-.menu-item i { margin-right: 10px; width: 20px; text-align: center;}
-.logout-item { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); }
-
-/* --- Contenido Principal --- */
-.main-content {
-    width: 100%;
-    overflow-y: auto;
-    height: calc(100vh - 120px); 
-}
-.content-section { display: none; animation: fadeIn 0.5s ease-in-out; }
-.content-section.active { display: block; }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.card-header h2, .card-header h3 { color: var(--bs-primary); }
-.hidden { display: none !important; }
-
-/* --- NUEVO: Estilo para cabeceras de sección con icono --- */
-.section-header {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.section-header h2 {
-    font-size: 1.25rem;
-}
-
-
-/* --- Tablas --- */
-.table-stylish thead {
-    background-color: #00008B; color: white; font-weight: 600;
-    text-transform: uppercase; font-size: 0.8rem;
-}
-.table-stylish th, .table-stylish td { padding: 0.75rem; vertical-align: middle; border-bottom: 1px solid #e9ecef; font-size: 0.9rem;}
-.table-stylish tbody tr:last-child td { border-bottom: none; }
-.table-stylish .text-end { font-family: 'Courier New', monospace; font-weight: bold; }
-.table-stylish tfoot.table-stylish-footer {
-    background-color: #e9ecef; font-weight: bold; color: #000;
-    border-top: 2px solid #adb5bd;
-}
-#passenger-itinerary-container thead,
-#cargo-itinerary-container thead { 
-    position: sticky; 
-    top: 0; 
-    z-index: 10; 
-}
-.airline-dot {
-    display: inline-block; width: 10px; height: 10px;
-    border-radius: 50%; margin-right: 8px; vertical-align: middle;
-}
-.table-total-row {
-    background-color: #e0d9c6;
-    font-weight: bold;
-}
-.itinerary-table {
-    font-size: 0.85rem;
-}
-.itinerary-table .monospace {
-    font-family: 'Courier New', monospace;
-    font-weight: 600;
-}
-
-/* --- Gráficas --- */
-.chart-container {
-    height: 300px;
-    padding-top: 1rem;
-}
-
-/* --- Componentes de PDF --- */
-.pdf-preview-container {
-    position: relative;
-    width: 100%;
-    height: 450px; 
-    border: 1px solid #ddd;
-    border-radius: .375rem;
-    overflow: hidden;
-}
-.pdf-preview-container iframe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border: none;
-}
-.pdf-container { position: relative; }
-.pdf-zoom-btn {
-    position: absolute; top: 10px; right: 10px; z-index: 10;
-    background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 50%;
-    width: 40px; height: 40px;
-    display: flex; justify-content: center; align-items: center;
-    text-decoration: none; transition: background-color 0.2s ease;
-}
-.pdf-zoom-btn:hover { background-color: rgba(0, 0, 139, 0.8); color: white; }
-.pdf-lightbox {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.85); z-index: 2000;
-    display: flex; justify-content: center; align-items: center; padding: 1rem;
-}
-.lightbox-content { width: 100%; height: 100%; max-width: 1200px; }
-.lightbox-content iframe { width: 100%; height: 100%; border: 2px solid white; }
-.lightbox-close {
-    position: absolute; top: 15px; right: 25px; font-size: 2.5rem;
-    color: white; background: none; border: none; cursor: pointer;
-}
-
-/* --- Overlay para Sidebar en móvil --- */
-.sidebar-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1040;
-    opacity: 0; visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-.sidebar-overlay.active { opacity: 1; visibility: visible; }
 
 /* ==========================================================================
-   DISEÑO RESPONSIVO
+   Login
    ========================================================================== */
+.login-screen { background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; }
+.login-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 20, 0.6); }
+.login-container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-radius: 15px; padding: 2.5rem; width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); text-align: center; z-index: 1; border: 1px solid rgba(255, 255, 255, 0.2); }
+.login-logo { width: 90px; height: 90px; object-fit: contain; margin-bottom: 1rem; border-radius: 50%; border: 4px solid #003366; padding: 5px; background: #f8f9fa; }
+#login-title { font-family: var(--font-family-mono); font-weight: bold; color: #002244; border-right: 3px solid #002244; white-space: nowrap; overflow: hidden; display: inline-block; margin: 0 auto 0.5rem; letter-spacing: .1em; animation: typing 3s steps(15, end), blink-caret .75s step-end infinite; }
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #002244; } }
+#login-button { transition: background-color 0.3s, transform 0.2s; }
+#login-button:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 51, 102, 0.3); }
+#login-button .spinner { display: none; width: 1.2rem; height: 1.2rem; border: 2px solid #fff; border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; margin: 0 auto; }
+#login-button.loading .spinner { display: block; }
+#login-button.loading .btn-text { display: none; }
+@keyframes rotation { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   Animación de Avión CSS con Estela
+   ========================================================================== */
+#flying-plane { position: absolute; top: 50%; left: -100px; z-index: 1; animation: fly-arc 30s linear infinite; pointer-events: none; opacity: 0.6; width: 25px; height: 8px; background: var(--text-muted-color); border-radius: 40%; }
+#flying-plane::before, #flying-plane::after { content: ''; position: absolute; background: var(--text-muted-color); }
+#flying-plane::before { width: 8px; height: 22px; left: 7px; top: -9px; transform: skew(-30deg, -10deg); border-radius: 3px; }
+#flying-plane::after { width: 5px; height: 10px; left: -2px; top: -1px; transform: skew(40deg, 20deg); border-radius: 1px; }
+.contrail { position: absolute; width: 150px; height: 2px; background: linear-gradient(to left, transparent, var(--text-muted-color)); top: 50%; right: 100%; transform: translateY(-50%); opacity: 0.8; }
+@keyframes fly-arc { 0% { transform: translate(0, 0) rotate(15deg); } 30% { transform: translate(35vw, -80px) rotate(-10deg); } 70% { transform: translate(75vw, -80px) rotate(-10deg); } 100% { transform: translate(110vw, 20px) rotate(15deg); } }
+
+.header { position: relative; overflow: hidden; }
+.header-content { position: relative; z-index: 2; }
+
+/* ==========================================================================
+   Tablas de Inicio "Glassmorphism"
+   ========================================================================== */
+.table-container-tech { background-color: var(--tech-table-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; box-shadow: 0 4px 15px var(--shadow-color); overflow: hidden; }
+.table-container-tech .table-responsive { max-height: 350px; overflow-y: auto; }
+.table-container-tech table { --bs-table-color: var(--text-color); --bs-table-bg: transparent; --bs-table-border-color: var(--border-color); --bs-table-hover-color: var(--text-color); --bs-table-hover-bg: var(--body-bg); }
+.table-container-tech thead th { background-color: rgba(0,0,0,0.05); border-bottom: 2px solid var(--primary-color) !important; text-transform: uppercase; font-size: 0.8rem; font-weight: 500; }
+body.dark-mode .table-container-tech thead th { background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(0,0,0,0.1)); }
+.table-container-tech tbody tr { transition: background-color 0.2s, transform 0.2s, border-left-color 0.2s; border-left: 4px solid var(--airline-color, transparent); }
+.table-container-tech tbody tr:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 4px 10px rgba(0,0,0,0.1); background-color: var(--body-bg); }
+.table-container-tech .airline-dot { width: 8px; height: 8px; vertical-align: middle; border-radius: 50%; margin-right: 8px; display: inline-block;}
+
+/* ==========================================================================
+   Barra Lateral Plegable
+   ========================================================================== */
+.app-body { position: relative; }
+.sidebar { position: fixed; left: 0; top: 0; bottom: 0; transform: translateX(0); transition: transform 0.4s ease; }
+.main-content { margin-left: var(--sidebar-width); transition: margin-left 0.4s ease, width 0.4s ease; width: calc(100% - var(--sidebar-width)); }
+.sidebar-toggler-btn { color: var(--text-color); border: none; font-size: 1.2rem; }
+body.sidebar-collapsed .sidebar { transform: translateX(calc(-1 * var(--sidebar-width))); }
+body.sidebar-collapsed .main-content { margin-left: 0; width: 100%; }
+
+/* ==========================================================================
+   Animaciones Generales
+   ========================================================================== */
+.animated-row { opacity: 0; transform-origin: top; transform: rotateX(-90deg); animation: flipIn 0.8s ease-out forwards; animation-delay: var(--delay); }
+@keyframes flipIn { to { opacity: 1; transform: rotateX(0deg); } }
+.fade-in-row { opacity: 0; animation: fadeInUp 0.8s ease-out forwards; animation-delay: var(--delay); }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================================================
+   Resto de Estilos
+   ========================================================================== */
+body.dark-mode .card h1, body.dark-mode .card h2, body.dark-mode .card h3, body.dark-mode .card h4, body.dark-mode .card h5, body.dark-mode .h5 { color: var(--text-color); }
+.hidden { display: none !important; }
+.aifa-logo { width: 140px; }
+.header-logo { height: 45px; }
+.main-title { font-size: 1.4rem; font-weight: 500; color: var(--text-color); }
+.current-user-display { color: var(--primary-color); }
+.gob-logo { height: 35px; }
+.formal-clock-container { text-align: center; background-color: var(--body-bg); padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color); }
+.clock-label { font-size: 0.7rem; font-weight: 600; color: var(--text-muted-color); text-transform: uppercase; }
+.formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.2rem; color: var(--primary-color); }
+.date-bar { background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); }
+.theme-toggle-btn { color: var(--text-color); }
+.sidebar { background: var(--sidebar-bg); color: white; width: var(--sidebar-width); flex-shrink: 0; z-index: 1050; }
+.menu-item { display: flex; align-items: center; padding: 0.85rem 1.5rem; color: rgba(255, 255, 255, 0.8); text-decoration: none; transition: all 0.2s ease; border-left: 4px solid transparent; }
+.menu-item:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
+.menu-item.active { background-color: var(--primary-color-light); color: var(--primary-color-dark); font-weight: 700; border-left-color: var(--primary-color); }
+body.dark-mode .menu-item.active { background-color: var(--primary-color-light); color: white; border-left-color: var(--primary-color); }
+.menu-item i { margin-right: 12px; width: 20px; text-align: center; }
+.logout-item { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); }
+.filter-container { background-color: var(--body-bg); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 1rem; box-shadow: var(--shadow-color) 0px 2px 8px 0px; }
+.filter-header { display: flex; align-items: center; color: var(--primary-color); margin-bottom: 0.75rem; }
+.pdf-preview-container { position: relative; width: 100%; height: 550px; border: 1px solid var(--border-color); border-radius: .375rem; overflow: hidden; }
+.pdf-preview-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.content-section { display: none; animation: fadeIn 0.5s; }
+.content-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.card { background-color: var(--card-bg); border: 1px solid var(--border-color); transition: background-color 0.3s, border-color 0.3s; }
+.card-header, .card-body, .card-footer { background-color: transparent; border-color: var(--border-color); }
+.nav-tabs .nav-link { color: var(--text-muted-color); }
+.nav-tabs .nav-link.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.table-stylish thead { background-color: var(--primary-color); color: white; font-weight: 500; text-transform: uppercase; font-size: 0.8rem; }
+.table-stylish-footer { background-color: var(--primary-color-light); font-weight: bold; color: var(--primary-color-dark); border-top: 2px solid var(--primary-color); }
+body.dark-mode .table-stylish-footer { color: var(--text-color); }
+.table-dark { --bs-table-bg: var(--primary-color); }
+.table-total-row { background-color: var(--primary-color-light); font-weight: bold; }
+.pdf-container { position: relative; }
+.pdf-zoom-btn { position: absolute; top: 10px; right: 10px; z-index: 10; background-color: rgba(0, 0, 0, 0.5); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; text-decoration: none; transition: background-color 0.2s ease; }
+.pdf-zoom-btn:hover { background-color: var(--primary-color); color: white; }
+.pdf-lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); z-index: 3000; display: flex; justify-content: center; align-items: center; padding: 1rem; }
+.lightbox-content { width: 100%; height: 100%; max-width: 1200px; }
+.lightbox-content iframe { width: 100%; height: 100%; border: 2px solid white; }
+.lightbox-close { position: absolute; top: 15px; right: 25px; font-size: 2.5rem; color: white; background: none; border: none; cursor: pointer; }
+.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1040; opacity: 0; visibility: hidden; transition: opacity 0.3s ease-in-out; }
+.sidebar-overlay.active { opacity: 1; visibility: visible; }
+
 @media (max-width: 991.98px) {
-    .header .container-fluid > .d-flex { flex-wrap: wrap; }
-    .header-center-content { order: 3; width: 100%; text-align: center; margin-top: 1rem; }
-    .main-title { font-size: 1.1rem; }
-    .header-logo { display: none; }
-    .formal-clock-container { padding: 0.3rem 0.6rem; }
-    .formal-clock { font-size: 1rem; }
-    .sidebar { position: fixed; left: 0; top: 0; height: 100%; z-index: 1050; transform: translateX(-100%); box-shadow: 4px 0 15px rgba(0,0,0,0.2); }
-    .sidebar.visible { transform: translateX(0); }
-    .main-content { height: calc(100vh - 160px); padding: 1rem; width: 100%; }
-    #sidebar-toggler { color: var(--bs-primary); border: 1px solid var(--bs-primary); padding: 0.25rem 0.5rem; font-size: 1rem; border-radius: 0.25rem; }
-    #sidebar-toggler .fa-bars { color: var(--bs-primary); }
-    .logout-button-mobile { font-size: 1.2rem; }
-    .nav-tabs .nav-link { font-size: 0.85rem; padding: 0.5rem 0.75rem; }
-    .download-btn .btn-text { display: none; }
-    .download-btn { width: 40px; }
-    .table-stylish, .itinerary-table { font-size: 0.8rem; }
-    .table-stylish th, .table-stylish td { padding: 0.5rem; }
-    .chart-container { height: 250px; margin-top: 1rem; }
-    .card-op-container .col-lg-6 { margin-bottom: 1rem; }
+    #flying-plane { display: none; }
+    .header .container-fluid > .d-flex { flex-wrap: wrap; justify-content: space-between; }
+    .header-center-content { order: 3; width: 100%; text-align: center; padding-top: 1rem; }
+    .main-title { font-size: 1rem; }
+    .header-logo, .gob-logo { display: none; }
+    .formal-clock-container { flex-grow: 1; text-align: right; }
+    .sidebar { transform: translateX(calc(-1 * var(--sidebar-width))); } /* Oculto por defecto en móvil */
+    .sidebar.visible { transform: translateX(0); box-shadow: 4px 0 15px rgba(0,0,0,0.2); }
+    .main-content { margin-left: 0; width: 100%; height: calc(100vh - 170px); padding: 1rem; }
+}
+@media (max-width: 576px) {
+    .main-title { font-size: 0.9rem; }
+    .aifa-logo { width: 100px; }
+    .formal-clock-container { display: none; }
 }
