@@ -92,6 +92,15 @@ body {
    width: 100%;
    white-space: nowrap; /* prevent inline children from wrapping */
 }
+
+/* Enable horizontal pan gestures on touch devices */
+.h-scroll-area {
+   touch-action: pan-x;
+   -ms-touch-action: pan-x;
+}
+
+/* Optional class to force a wider table when automatic measurement isn't enough */
+.force-wide { min-width: 1200px !important; }
 .h-scroll-area > .table-container-tech {
    /* Make the inner table container size itself to its content so the h-scroll-area
       can detect overflow and enable horizontal scrolling. */

@@ -397,8 +397,15 @@ function displayPassengerTable(flights) {
                 if (needed > area.clientWidth) {
                     table.style.minWidth = needed + 'px';
                 } else {
-                    table.style.minWidth = '';
-                    table.style.width = '';
+                    // on touch devices, slightly increase minWidth to allow panning
+                    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+                    if (isTouch) {
+                        const forced = Math.round(area.clientWidth * 1.2);
+                        table.style.minWidth = forced + 'px';
+                    } else {
+                        table.style.minWidth = '';
+                        table.style.width = '';
+                    }
                 }
                 // refresh controls
                 try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {}
@@ -440,8 +447,14 @@ function displayCargoTable(flights) {
                 if (needed > area.clientWidth) {
                     table.style.minWidth = needed + 'px';
                 } else {
-                    table.style.minWidth = '';
-                    table.style.width = '';
+                    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+                    if (isTouch) {
+                        const forced = Math.round(area.clientWidth * 1.2);
+                        table.style.minWidth = forced + 'px';
+                    } else {
+                        table.style.minWidth = '';
+                        table.style.width = '';
+                    }
                 }
                 try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {}
             });
