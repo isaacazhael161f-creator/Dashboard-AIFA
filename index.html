@@ -15,7 +15,7 @@
 
     <div id="login-screen" class="login-screen">
         <div class="login-overlay"></div>
-        <div class="login-container">
+            <div class="login-container">
             <div class="login-header">
                 <img src="images/emblema-aviacion.png" alt="Emblema de la Aviación" class="login-logo" />
                 <h1 id="login-title" class="h3"></h1>
@@ -36,7 +36,7 @@
                 </button>
                 <div id="login-error" class="text-danger mt-2"></div>
             </form>
-        </div>
+                                                </div>
     </div>
 
     <div id="main-app" class="main-app hidden">
@@ -85,6 +85,7 @@
                     <a class="menu-item active" href="#" data-section="inicio"><i class="fas fa-home"></i><span>Inicio</span></a>
                     <a class="menu-item" href="#" data-section="itinerario"><i class="fas fa-calendar-alt"></i><span>Itinerario</span></a>
                     <a class="menu-item" href="#" data-section="parte-operaciones"><i class="fas fa-file-invoice"></i><span>Parte de Operaciones</span></a>
+                        <a class="menu-item" href="#" data-section="puntualidad-agosto"><i class="fas fa-clock-check"></i><span>Puntualidad</span></a>
                     <a class="menu-item" href="#" data-section="demoras"><i class="fas fa-clock"></i><span>Demoras</span></a>
                     <a class="menu-item" href="#" data-section="operaciones-totales"><i class="fas fa-clipboard-check"></i><span>Operaciones Totales</span></a>
                     <a class="menu-item" id="itinerario-mensual-menu" href="#" data-section="itinerario-mensual"><i class="fas fa-table"></i><span>Itinerario Mensual</span></a>
@@ -123,11 +124,26 @@
                                                     <h5 class="mb-0">Filtros de Búsqueda</h5>
                                                 </div>
                                                 <div class="input-group">
-                                                    <select id="airline-filter" class="form-select">
-                                                        <option value="all" selected>Todas las Aerolíneas</option>
-                                                    </select>
-                                                    <input type="text" id="claim-filter" class="form-control" placeholder="Filtrar por banda de reclamo...">
-                                                </div>
+                                                        <select id="airline-filter" class="form-select">
+                                                            <option value="all" selected>Todas las Aerolíneas</option>
+                                                        </select>
+                                                        <input type="text" id="claim-filter" class="form-control" placeholder="Filtrar por banda de reclamo...">
+                                                    </div>
+                                                    <div class="mt-2 d-flex gap-2 flex-wrap align-items-center">
+                                                        <div class="input-group input-group-sm" style="min-width:220px;">
+                                                            <label class="input-group-text">Posición</label>
+                                                            <select id="position-filter" class="form-select">
+                                                                <option value="all" selected>Todas las posiciones</option>
+                                                            </select>
+                                                        </div>
+                                                        <div style="min-width:200px;">
+                                                            <!-- Búsqueda global de texto: aerolínea, origen, destino, vuelo, banda, etc. -->
+                                                            <input type="text" id="claim-filter" class="form-control form-control-sm" placeholder="Buscar texto (aerolinea/origen/destino/vuelo/banda)...">
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <button id="clear-filters" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                                                        </div>
+                                                    </div>
                                             </div>
                                             <h4 class="mb-3"><i class="fas fa-plane-departure me-2"></i>Itinerario de Pasajeros</h4>
                                             <div id="passenger-itinerary-container" class="table-container-tech mb-4"></div>
@@ -158,6 +174,10 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Resumen rápido: conteo por aerolínea separado en Pasajeros / Carga -->
+                            <div id="itinerario-diario-summary" class="mb-3">
+                                <!-- will be populated by script.renderItinerarioSummary -->
+                            </div>
                             <ul class="nav nav-tabs" id="itineraryTab" role="tablist">
                                 <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pasajeros-calor-pane">1. Mapa de Calor (Pasajeros)</button></li>
                                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pasajeros-grafica-pane">2. Gráfica (Pasajeros)</button></li>
@@ -189,8 +209,12 @@
                                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#resumen2-pane">Resumen 2</button></li>
                             </ul>
                             <div class="tab-content pt-3" id="operationsTabContent">
-                                <div class="tab-pane fade show active" id="resumen1-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/resumen_1.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
-                                <div class="tab-pane fade" id="resumen2-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/resumen_2.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
+                                <div class="tab-pane fade show active" id="resumen1-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/resumen_1.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
+                                <div class="tab-pane fade" id="resumen2-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/resumen_2.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -280,7 +304,15 @@
                     </div>
                 </div>
 
-                <div id="itinerario-mensual-section" class="content-section"></div>
+                <div id="itinerario-mensual-section" class="content-section">
+                    <div class="card"><div class="card-header text-center"><h2 class="mb-0">ITINERARIO MENSUAL</h2></div><div class="card-body pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/itinerario_mensual.pdf" width="100%" height="800px" class="border-0"></iframe></div></div>
+                </div>
+                <div id="puntualidad-agosto-section" class="content-section">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-center"><i class="fas fa-clock-check fa-2x text-primary me-3"></i><h2 class="mb-0">PUNTUALIDAD - AGOSTO</h2></div>
+                        <div class="card-body pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/puntualidad_agosto.pdf" width="100%" height="800px" class="border-0"></iframe></div>
+                    </div>
+                </div>
                 
                 <div id="comparativa-section" class="content-section">
                      <div class="card border-0">
@@ -318,6 +350,16 @@
         <button id="lightbox-close" class="lightbox-close">&times;</button>
         <div id="lightbox-content" class="lightbox-content"></div>
     </div>
+
+        <!-- Toast for actions -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2050">
+            <div id="action-toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">Filtros limpiados</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                </div>
+            </div>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>

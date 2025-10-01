@@ -1,0 +1,39 @@
+{
+  "resumen1": {
+    "columns": [
+      { "key": "categoria", "title": "Categoría", "align": "start" },
+      { "key": "operaciones_programadas", "title": "Operaciones Programadas", "align": "end", "format": "number" },
+      { "key": "operaciones_ejecutadas", "title": "Operaciones Ejecutadas", "align": "end", "format": "number" },
+      { "key": "diferencia", "title": "Diferencia", "align": "end", "format": "number" }
+    ],
+    "rows": [
+      { "categoria": "Aviación Comercial", "operaciones_programadas": 1200, "operaciones_ejecutadas": 1187, "diferencia": -13 },
+      { "categoria": "Operaciones de Carga", "operaciones_programadas": 340, "operaciones_ejecutadas": 342, "diferencia": 2 },
+      { "categoria": "Aviación General", "operaciones_programadas": 85, "operaciones_ejecutadas": 80, "diferencia": -5 }
+    ],
+    "footer": [
+      { "text": "TOTAL", "colspan": 1, "class": "text-start fw-bold" },
+      { "text": "1625", "class": "text-end fw-bold" },
+      { "text": "1609", "class": "text-end fw-bold" },
+      { "text": "-16", "class": "text-end fw-bold" }
+    ]
+  },
+  "resumen2": {
+    "columns": [
+      { "key": "hora", "title": "Hora", "align": "start" },
+      { "key": "operaciones", "title": "Operaciones", "align": "end", "format": "number" },
+      { "key": "observaciones", "title": "Observaciones", "align": "start" }
+    ],
+    "rows": [
+      { "hora": "00:00-05:59", "operaciones": 12, "observaciones": "Turno noche" },
+      { "hora": "06:00-11:59", "operaciones": 420, "observaciones": "Turno AM" },
+      { "hora": "12:00-17:59", "operaciones": 680, "observaciones": "Turno PM" },
+      { "hora": "18:00-23:59", "operaciones": 497, "observaciones": "Turno noche" }
+    ],
+    "footer": [
+      { "text": "TOTAL (día)", "colspan": 1, "class": "text-start fw-bold" },
+      { "text": "1609", "class": "text-end fw-bold" },
+      { "text": "", "class": "" }
+    ]
+  }
+}
