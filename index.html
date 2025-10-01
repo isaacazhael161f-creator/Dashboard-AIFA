@@ -85,7 +85,13 @@
                     <a class="menu-item active" href="#" data-section="inicio"><i class="fas fa-home"></i><span>Inicio</span></a>
                     <a class="menu-item" href="#" data-section="itinerario"><i class="fas fa-calendar-alt"></i><span>Itinerario</span></a>
                     <a class="menu-item" href="#" data-section="parte-operaciones"><i class="fas fa-file-invoice"></i><span>Parte de Operaciones</span></a>
-                        <a class="menu-item" href="#" data-section="puntualidad-agosto"><i class="fas fa-clock-check"></i><span>Puntualidad</span></a>
+                        <a class="menu-item" href="#" data-section="puntualidad-agosto">
+                            <span class="icon-clock-check" aria-hidden="true">
+                                <i class="fas fa-clock"></i>
+                                <i class="fas fa-check check" aria-hidden="true"></i>
+                            </span>
+                            <span>Puntualidad</span>
+                        </a>
                     <a class="menu-item" href="#" data-section="demoras"><i class="fas fa-clock"></i><span>Demoras</span></a>
                     <a class="menu-item" href="#" data-section="operaciones-totales"><i class="fas fa-clipboard-check"></i><span>Operaciones Totales</span></a>
                     <a class="menu-item" id="itinerario-mensual-menu" href="#" data-section="itinerario-mensual"><i class="fas fa-table"></i><span>Itinerario Mensual</span></a>
@@ -174,10 +180,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <!-- Resumen rápido: conteo por aerolínea separado en Pasajeros / Carga -->
-                            <div id="itinerario-diario-summary" class="mb-3">
-                                <!-- will be populated by script.renderItinerarioSummary -->
-                            </div>
+                            <!-- (Removed) Resumen rápido por aerolínea: se elimina para mostrar solo los PDFs en Itinerario Detallado -->
                             <ul class="nav nav-tabs" id="itineraryTab" role="tablist">
                                 <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pasajeros-calor-pane">1. Mapa de Calor (Pasajeros)</button></li>
                                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#pasajeros-grafica-pane">2. Gráfica (Pasajeros)</button></li>
@@ -241,7 +244,7 @@
 
                 <div id="operaciones-totales-section" class="content-section">
                     <div class="card">
-                        <div class="card-header"><h2 class="mb-0">Operaciones Totales</h2></div>
+                        <div class="card-header"><h2 class="mb-0">Operaciones Totales (Comparación 2022-2024) </h2></div>
                         <div class="card-body">
                             <ul class="nav nav-tabs" id="opTotalesTab" role="tablist">
                                 <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#resumen-tablas-pane">Resumen de Operaciones</button></li>

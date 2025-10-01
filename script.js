@@ -10,8 +10,8 @@ const staticData = {
         general: [ { periodo: '2022', operaciones: 458, pasajeros: 1385 }, { periodo: '2023', operaciones: 2212, pasajeros: 8160 }, { periodo: '2024', operaciones: 2777, pasajeros: 29637 } ]
     },
     demoras: {
-        periodo: "Abril 2025",
-        causas: [ { causa: 'Repercusión', demoras: 0 }, { causa: 'Compañía', demoras: 199 }, { causa: 'Evento Circunstancial', demoras: 0 }, { causa: 'Combustible', demoras: 5 }, { causa: 'Autoridad', demoras: 0 }, { causa: 'Meteorología', demoras: 2 }, { causa: 'Aeropuerto', demoras: 0 }, ]
+        periodo: "Agosto 2025",
+        causas: [ { causa: 'Repercusión', demoras: 219 }, { causa: 'Compañía', demoras: 190 }, { causa: 'Evento Circunstancial', demoras: 8 }, { causa: 'Combustible', demoras: 5 }, { causa: 'Autoridad', demoras: 4 }, { causa: 'Meteorología', demoras: 199 }, { causa: 'Aeropuerto', demoras: 4 }, ]
     }
 };
 const dashboardData = {
@@ -188,27 +188,13 @@ function applyFilters() {
     displayCargoTable(cargoFlights);
     // update summary based on currently visible (filtered) data
     displaySummaryTable(filteredData);
-    // also update itinerario diario summary breakdown
-    renderItinerarioSummary(filteredData);
+    // Nota: el resumen diario por aerolínea fue removido del UI; no renderizamos conteos aquí.
+    // Si se requiere reinstalar, reimplementar renderItinerarioSummary y descomentar la línea siguiente:
+    // renderItinerarioSummary(filteredData);
 }
 
-function renderItinerarioSummary(flights) {
-    const container = document.getElementById('itinerario-diario-summary');
-    if (!container) return;
-    if (!flights || flights.length === 0) { container.innerHTML = '<div class="alert alert-info">No hay vuelos para mostrar resumen.</div>'; return; }
-    const summary = flights.reduce((acc, f) => {
-        const airline = (f.aerolinea || 'Sin aerolínea').trim();
-        if (!acc[airline]) acc[airline] = { pasajeros: 0, carga: 0 };
-        const cat = (f.categoria || '').toString().toLowerCase();
-        if (cat === 'carga') acc[airline].carga++; else acc[airline].pasajeros++;
-        return acc;
-    }, {});
-    const rows = Object.keys(summary).sort().map(a => {
-        const d = summary[a];
-        return `<div class="d-flex justify-content-between align-items-center py-1 border-bottom"><div><strong>${a}</strong></div><div class="text-end"><small class="text-muted me-3">Pasajeros: ${new Intl.NumberFormat('es-MX').format(d.pasajeros)}</small><small class="text-muted">Carga: ${new Intl.NumberFormat('es-MX').format(d.carga)}</small></div></div>`;
-    }).join('');
-    container.innerHTML = `<div class="card p-2">${rows}</div>`;
-}
+// La función renderItinerarioSummary fue removida a petición: el apartado "Itinerario Detallado" mostrará únicamente los PDFs (mapas/grafica).
+// Si en el futuro se requiere volver a mostrar un resumen por aerolínea, reimplementar la función aquí.
 
 function populatePositionFilter() {
     const select = document.getElementById('position-filter');

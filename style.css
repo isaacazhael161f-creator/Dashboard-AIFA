@@ -123,6 +123,11 @@ body.dark-mode .card h1, body.dark-mode .card h2, body.dark-mode .card h3, body.
 .menu-item.active { background-color: var(--primary-color-light); color: var(--primary-color-dark); font-weight: 700; border-left-color: var(--primary-color); }
 body.dark-mode .menu-item.active { background-color: var(--primary-color-light); color: white; border-left-color: var(--primary-color); }
 .menu-item i { margin-right: 12px; width: 20px; text-align: center; }
+/* Composite icon for punctuality: clock with a small check overlay */
+.icon-clock-check { position: relative; display: inline-block; width: 20px; height: 20px; margin-right: 12px; color: rgba(255,255,255,0.9); }
+.icon-clock-check i { position: absolute; left: 0; top: 0; width: 100%; height: 100%; line-height: 20px; text-align: center; }
+.icon-clock-check i.check { font-size: 0.65rem; color: #fff; background: #198754; border-radius: 50%; width: 12px; height: 12px; display: inline-flex; align-items: center; justify-content: center; right: -2px; top: 8px; position: absolute; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+body.dark-mode .icon-clock-check { color: #e8eaed; }
 .logout-item { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, 0.2); }
 .filter-container { background-color: var(--body-bg); border: 1px solid var(--border-color); border-radius: 0.5rem; padding: 1rem; box-shadow: var(--shadow-color) 0px 2px 8px 0px; }
 .filter-header { display: flex; align-items: center; color: var(--primary-color); margin-bottom: 0.75rem; }
