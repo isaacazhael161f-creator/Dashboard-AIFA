@@ -5,9 +5,9 @@
  */
 const staticData = {
     operacionesTotales: {
-        comercial: [ { periodo: '2022', operaciones: 8996, pasajeros: 912415 }, { periodo: '2023', operaciones: 23211, pasajeros: 2631261 }, { periodo: '2024', operaciones: 51734, pasajeros: 6318454 } ],
-        carga: [ { periodo: '2022', operaciones: 8, toneladas: 5.19 }, { periodo: '2023', operaciones: 5578, toneladas: 186319.83 }, { periodo: '2024', operaciones: 13219, toneladas: 447341.17 } ],
-        general: [ { periodo: '2022', operaciones: 458, pasajeros: 1385 }, { periodo: '2023', operaciones: 2212, pasajeros: 8160 }, { periodo: '2024', operaciones: 2777, pasajeros: 29637 } ]
+        comercial: [ { periodo: '2022', operaciones: 8996, pasajeros: 912415 }, { periodo: '2023', operaciones: 23211, pasajeros: 2631261 }, { periodo: '2024', operaciones: 51734, pasajeros: 6318454 }, { periodo: '2025', operaciones: 39774, pasajeros: 4396262 } ],
+        carga: [ { periodo: '2022', operaciones: 8, toneladas: 5.19 }, { periodo: '2023', operaciones: 5578, toneladas: 186319.83 }, { periodo: '2024', operaciones: 13219, toneladas: 447341.17 }, { periodo: '2025', operaciones: 74052, toneladas: 284946 } ],
+        general: [ { periodo: '2022', operaciones: 458, pasajeros: 1385 }, { periodo: '2023', operaciones: 2212, pasajeros: 8160 }, { periodo: '2024', operaciones: 2777, pasajeros: 29637 }, { periodo: '2025', operaciones: 2111, pasajeros: 1885 } ]
     },
     demoras: {
         periodo: "Agosto 2025",
@@ -66,7 +66,8 @@ function setupEventListeners() {
 function animateLoginTitle() {
     const titleElement = document.getElementById('login-title');
     if (!titleElement) return;
-    titleElement.textContent = "SLOT MASTER PRO";
+        // Mantener el título solicitado
+        titleElement.textContent = "OPERACIONES AIFA";
 }
 function animateCounter(elementId, endValue, duration = 2500, isDecimal = false) {
     const element = document.getElementById(elementId);
@@ -112,6 +113,11 @@ function updateClock() {
         const now = new Date();
         clockElement.textContent = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
+        const utcElement = document.getElementById('utc-clock');
+        if (utcElement) {
+            const nowUtc = new Date();
+            utcElement.textContent = nowUtc.toLocaleTimeString('es-ES', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'UTC' });
+        }
 }
 function initializeTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';

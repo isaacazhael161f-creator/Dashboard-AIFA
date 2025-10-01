@@ -115,6 +115,22 @@ body.dark-mode .card h1, body.dark-mode .card h2, body.dark-mode .card h3, body.
 .formal-clock-container { text-align: center; background-color: var(--body-bg); padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color); }
 .clock-label { font-size: 0.7rem; font-weight: 600; color: var(--text-muted-color); text-transform: uppercase; }
 .formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.2rem; color: var(--primary-color); }
+/* UTC clock styling */
+.utc-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; color: var(--primary-color); }
+.utc-clock-container .clock-label { font-size: 0.65rem; }
+
+/* Clocks wrapper adjustments */
+.clocks-wrapper .formal-clock-container, .clocks-wrapper .utc-clock-container { background: transparent; padding: 0.25rem 0.5rem; border-radius: 0.4rem; }
+.formal-clock, .utc-clock { padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.85); color: #002244; }
+
+body.dark-mode .formal-clock, body.dark-mode .utc-clock { background: rgba(0,0,0,0.35); color: #e8eaed; }
+
+/* Improve contrast in dark mode across the app for text-heavy areas */
+body.dark-mode { color: #e8eaed; }
+body.dark-mode .card, body.dark-mode .filter-container { background-color: #1e2a38; border-color: rgba(255,255,255,0.06); }
+body.dark-mode .menu-item { color: rgba(255,255,255,0.95); }
+body.dark-mode .menu-item:hover { background-color: rgba(255,255,255,0.05); }
+body.dark-mode .table-container-tech { background-color: rgba(255,255,255,0.04); }
 .date-bar { background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); }
 .theme-toggle-btn { color: var(--text-color); }
 .sidebar { background: var(--sidebar-bg); color: white; width: var(--sidebar-width); flex-shrink: 0; z-index: 1050; }
