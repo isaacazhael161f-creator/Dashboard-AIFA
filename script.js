@@ -7,7 +7,7 @@ const staticData = {
     operacionesTotales: {
         comercial: [ { periodo: '2022', operaciones: 8996, pasajeros: 912415 }, { periodo: '2023', operaciones: 23211, pasajeros: 2631261 }, { periodo: '2024', operaciones: 51734, pasajeros: 6318454 }, { periodo: '2025', operaciones: 39774, pasajeros: 4396262 } ],
         carga: [ { periodo: '2022', operaciones: 8, toneladas: 5.19 }, { periodo: '2023', operaciones: 5578, toneladas: 186319.83 }, { periodo: '2024', operaciones: 13219, toneladas: 447341.17 }, { periodo: '2025', operaciones: 74052, toneladas: 284946 } ],
-        general: [ { periodo: '2022', operaciones: 458, pasajeros: 1385 }, { periodo: '2023', operaciones: 2212, pasajeros: 8160 }, { periodo: '2024', operaciones: 2777, pasajeros: 29637 }, { periodo: '2025', operaciones: 2111, pasajeros: 1885 } ]
+        general: [ { periodo: '2022', operaciones: 458, pasajeros: 1385 }, { periodo: '2023', operaciones: 2212, pasajeros: 8160 }, { periodo: '2024', operaciones: 2777, pasajeros: 29637 }, { periodo: '2025', operaciones: 2111, pasajeros: 16443 } ]
     },
     demoras: {
         periodo: "Agosto 2025",
@@ -22,9 +22,9 @@ const dashboardData = {
         "Emily Beltrán": { password: "Emily67", canViewItinerarioMensual: true },
         "Director General": { password: "Dirección71", canViewItinerarioMensual: true },
         "Director de Operaciones": { password: "DirecciónNLU", canViewItinerarioMensual: true },
-        "Mateos": { password: "2025M", canViewItinerarioMensual: true }
+        "Jefe Mateos": { password: "2025M", canViewItinerarioMensual: true }
     },
-    pdfSections: { "itinerario-mensual": { title: "Itinerario Mensual", url: "pdfs/itinerario_mensual.pdf" } }
+    pdfSections: { "itinerario-mensual": { title: "Itinerario Mensual (Octubre)", url: "pdfs/itinerario_mensual.pdf" } }
 };
 let allFlightsData = [];
 let passengerAirlines = ["Viva", "Volaris", "Aeromexico", "Mexicana de Aviación", "Aeurus", "Arajet"];
