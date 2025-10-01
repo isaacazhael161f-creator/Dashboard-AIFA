@@ -77,6 +77,9 @@ body {
    ========================================================================== */
 .table-container-tech { background-color: var(--tech-table-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; box-shadow: 0 4px 15px var(--shadow-color); overflow: hidden; }
 .table-container-tech .table-responsive { max-height: 350px; overflow-y: auto; }
+/* Vertical scroll within the table on mobile: allow pan-y and set a reasonable max-height */
+.vertical-scroll { max-height: 60vh; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; }
+.vertical-scroll table { margin: 0; }
 .table-container-tech table { --bs-table-color: var(--text-color); --bs-table-bg: transparent; --bs-table-border-color: var(--border-color); --bs-table-hover-color: var(--text-color); --bs-table-hover-bg: var(--body-bg); }
 
 /* Horizontal itinerary scrolling wrapper */

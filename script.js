@@ -382,7 +382,7 @@ function displayPassengerTable(flights) {
         </tr>`;
     });
     tableHtml += `</tbody></table>`;
-    container.innerHTML = tableHtml;
+    container.innerHTML = `<div class="table-responsive vertical-scroll">${tableHtml}</div>`;
     // After rendering, ensure the table can overflow horizontally on small screens.
     try {
         const area = document.getElementById('passenger-itinerary-scroll');
@@ -435,7 +435,7 @@ function displayCargoTable(flights) {
         </tr>`;
     });
     tableHtml += `</tbody></table>`;
-    container.innerHTML = tableHtml;
+    container.innerHTML = `<div class="table-responsive vertical-scroll">${tableHtml}</div>`;
     // After rendering, ensure the table can overflow horizontally on small screens.
     try {
         const area = document.getElementById('cargo-itinerary-scroll');
