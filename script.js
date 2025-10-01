@@ -90,12 +90,15 @@ function handleLogin(e) {
     const loginButton = document.getElementById('login-button');
     loginButton.classList.add('loading');
     setTimeout(() => {
-        const username = document.getElementById('username').value;
+        const usernameInput = (document.getElementById('username').value || '').toString();
         const password = document.getElementById('password').value;
         const errorDiv = document.getElementById('login-error');
-        const user = dashboardData.users[username];
+        // Buscar usuario por nombre normalizado (insensible a mayúsculas/espacios)
+        const normalized = usernameInput.trim().toLowerCase();
+        const matchedKey = Object.keys(dashboardData.users).find(k => (k || '').toString().trim().toLowerCase() === normalized);
+        const user = matchedKey ? dashboardData.users[matchedKey] : undefined;
         if (user && user.password === password) {
-            sessionStorage.setItem('currentUser', username);
+            sessionStorage.setItem('currentUser', matchedKey);
             showMainApp();
         } else {
             errorDiv.textContent = 'Usuario o contraseña incorrectos';
