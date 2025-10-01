@@ -383,8 +383,30 @@ function displayPassengerTable(flights) {
     });
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
-    // Update horizontal scroll controls (if present) after rendering (ensure layout settled)
-    try { setTimeout(() => { try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {} }, 80); } catch(e) { /* ignore */ }
+    // After rendering, ensure the table can overflow horizontally on small screens.
+    try {
+        const area = document.getElementById('passenger-itinerary-scroll');
+        const table = container.querySelector('table');
+        if (table && area) {
+            // let layout settle then measure
+            requestAnimationFrame(() => {
+                // temporarily let table size to content
+                table.style.width = 'auto';
+                const needed = table.scrollWidth;
+                // if needed width exceeds visible area, enforce min-width to trigger overflow
+                if (needed > area.clientWidth) {
+                    table.style.minWidth = needed + 'px';
+                } else {
+                    table.style.minWidth = '';
+                    table.style.width = '';
+                }
+                // refresh controls
+                try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {}
+            });
+        } else {
+            setTimeout(() => { try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {} }, 80);
+        }
+    } catch(e) { /* ignore */ }
 }
 function displayCargoTable(flights) {
     const container = document.getElementById('cargo-itinerary-container');
@@ -407,8 +429,26 @@ function displayCargoTable(flights) {
     });
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
-    // Update horizontal scroll controls (if present) after rendering (ensure layout settled)
-    try { setTimeout(() => { try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {} }, 80); } catch(e) { /* ignore */ }
+    // After rendering, ensure the table can overflow horizontally on small screens.
+    try {
+        const area = document.getElementById('cargo-itinerary-scroll');
+        const table = container.querySelector('table');
+        if (table && area) {
+            requestAnimationFrame(() => {
+                table.style.width = 'auto';
+                const needed = table.scrollWidth;
+                if (needed > area.clientWidth) {
+                    table.style.minWidth = needed + 'px';
+                } else {
+                    table.style.minWidth = '';
+                    table.style.width = '';
+                }
+                try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {}
+            });
+        } else {
+            setTimeout(() => { try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {} }, 80);
+        }
+    } catch(e) { /* ignore */ }
 }
 
 /* Horizontal scroll controls: synchronize buttons and range inputs with scroll areas */

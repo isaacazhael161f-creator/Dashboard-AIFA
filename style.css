@@ -87,8 +87,17 @@ body {
    overflow-x: auto;
    -webkit-overflow-scrolling: touch;
 }
+
+.h-scroll-area {
+   width: 100%;
+   white-space: nowrap; /* prevent inline children from wrapping */
+}
 .h-scroll-area > .table-container-tech {
-   min-width: 0;
+   /* Make the inner table container size itself to its content so the h-scroll-area
+      can detect overflow and enable horizontal scrolling. */
+   display: inline-block;
+   vertical-align: top;
+   min-width: max-content;
 }
 
 /* Controls shown only on small screens */
@@ -114,6 +123,8 @@ body {
 .table-container-tech table {
    width: max-content;
 }
+
+.table-container-tech table { display: inline-table; }
 
 /* Ensure origin and destino columns are wide enough to show values */
 .table-container-tech table td:nth-child(5), .table-container-tech table th:nth-child(5),
