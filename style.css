@@ -131,6 +131,10 @@ body.dark-mode .card, body.dark-mode .filter-container { background-color: #1e2a
 body.dark-mode .menu-item { color: rgba(255,255,255,0.95); }
 body.dark-mode .menu-item:hover { background-color: rgba(255,255,255,0.05); }
 body.dark-mode .table-container-tech { background-color: rgba(255,255,255,0.04); }
+
+.update-note { font-size: 0.9rem; color: var(--text-muted-color); display: inline-flex; align-items: center; gap: 0.5rem; }
+.update-note i { color: var(--primary-color); }
+body.dark-mode .update-note { color: #c9d6e6; }
 .date-bar { background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); }
 .theme-toggle-btn { color: var(--text-color); }
 .sidebar { background: var(--sidebar-bg); color: white; width: var(--sidebar-width); flex-shrink: 0; z-index: 1050; }
