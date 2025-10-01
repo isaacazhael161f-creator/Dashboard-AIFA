@@ -114,16 +114,16 @@ body.dark-mode .card h1, body.dark-mode .card h2, body.dark-mode .card h3, body.
 .gob-logo { height: 35px; }
 .formal-clock-container { text-align: center; background-color: var(--body-bg); padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid var(--border-color); }
 .clock-label { font-size: 0.7rem; font-weight: 600; color: var(--text-muted-color); text-transform: uppercase; }
-.formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.2rem; color: var(--primary-color); }
-/* UTC clock styling */
-.utc-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1rem; color: var(--primary-color); }
+.formal-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.05rem; color: var(--primary-color); }
+/* UTC clock styling - same size as local clock */
+.utc-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.05rem; color: var(--primary-color); }
 .utc-clock-container .clock-label { font-size: 0.65rem; }
 
-/* Clocks wrapper adjustments */
-.clocks-wrapper .formal-clock-container, .clocks-wrapper .utc-clock-container { background: transparent; padding: 0.25rem 0.5rem; border-radius: 0.4rem; }
-.formal-clock, .utc-clock { padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.85); color: #002244; }
+/* Clocks wrapper adjustments - make both clocks visually identical */
+.clocks-wrapper .formal-clock-container, .clocks-wrapper .utc-clock-container { background: transparent; padding: 0.18rem 0.45rem; border-radius: 0.4rem; }
+.formal-clock, .utc-clock { padding: 0.18rem 0.6rem; border-radius: 6px; background: rgba(255,255,255,0.92); color: #002244; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
 
-body.dark-mode .formal-clock, body.dark-mode .utc-clock { background: rgba(0,0,0,0.35); color: #e8eaed; }
+body.dark-mode .formal-clock, body.dark-mode .utc-clock { background: rgba(255,255,255,0.04); color: #e8eaed; box-shadow: none; }
 
 /* Improve contrast in dark mode across the app for text-heavy areas */
 body.dark-mode { color: #e8eaed; }
