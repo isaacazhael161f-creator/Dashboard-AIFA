@@ -78,6 +78,58 @@ body {
 .table-container-tech { background-color: var(--tech-table-bg); backdrop-filter: blur(10px); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; box-shadow: 0 4px 15px var(--shadow-color); overflow: hidden; }
 .table-container-tech .table-responsive { max-height: 350px; overflow-y: auto; }
 .table-container-tech table { --bs-table-color: var(--text-color); --bs-table-bg: transparent; --bs-table-border-color: var(--border-color); --bs-table-hover-color: var(--text-color); --bs-table-hover-bg: var(--body-bg); }
+
+/* Horizontal itinerary scrolling wrapper */
+.itinerary-horizontal {
+   width: 100%;
+}
+.h-scroll-area {
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+}
+.h-scroll-area > .table-container-tech {
+   min-width: 0;
+}
+
+/* Controls shown only on small screens */
+.h-scroll-controls .scroll-range {
+   height: 28px;
+}
+.h-scroll-controls .btn {
+   width: 36px;
+   height: 36px;
+   padding: 6px 8px;
+}
+
+/* Hide native scrollbar in WebKit for a cleaner UI while preserving scrolling */
+.h-scroll-area::-webkit-scrollbar {
+   height: 8px;
+}
+.h-scroll-area::-webkit-scrollbar-thumb {
+   background: rgba(0,0,0,0.2);
+   border-radius: 4px;
+}
+
+/* Ensure table inside can be wider than container */
+.table-container-tech table {
+   width: max-content;
+}
+
+/* Ensure origin and destino columns are wide enough to show values */
+.table-container-tech table td:nth-child(5), .table-container-tech table th:nth-child(5),
+.table-container-tech table td:nth-child(10), .table-container-tech table th:nth-child(10),
+.table-container-tech table td:nth-child(11), .table-container-tech table th:nth-child(11) {
+   min-width: 140px;
+   white-space: nowrap;
+}
+
+/* Keep tables as wide as their content so horizontal scrolling works on all viewports.
+   Ensure origin/destination columns are wide enough to show values and force horizontal overflow when needed. */
+.table-container-tech table td:nth-child(5), .table-container-tech table th:nth-child(5),
+.table-container-tech table td:last-child, .table-container-tech table th:last-child {
+   min-width: 160px;
+   white-space: nowrap;
+}
 .table-container-tech thead th { background-color: rgba(0,0,0,0.05); border-bottom: 2px solid var(--primary-color) !important; text-transform: uppercase; font-size: 0.8rem; font-weight: 500; }
 body.dark-mode .table-container-tech thead th { background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(0,0,0,0.1)); }
 .table-container-tech tbody tr { transition: background-color 0.2s, transform 0.2s, border-left-color 0.2s; border-left: 4px solid var(--airline-color, transparent); }

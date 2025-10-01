@@ -383,6 +383,8 @@ function displayPassengerTable(flights) {
     });
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
+    // Update horizontal scroll controls (if present) after rendering (ensure layout settled)
+    try { setTimeout(() => { try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {} }, 80); } catch(e) { /* ignore */ }
 }
 function displayCargoTable(flights) {
     const container = document.getElementById('cargo-itinerary-container');
@@ -405,7 +407,85 @@ function displayCargoTable(flights) {
     });
     tableHtml += `</tbody></table>`;
     container.innerHTML = tableHtml;
+    // Update horizontal scroll controls (if present) after rendering (ensure layout settled)
+    try { setTimeout(() => { try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {} }, 80); } catch(e) { /* ignore */ }
 }
+
+/* Horizontal scroll controls: synchronize buttons and range inputs with scroll areas */
+function updateScrollControlsFor(scrollAreaId) {
+    const area = document.getElementById(scrollAreaId);
+    if (!area) return;
+
+    const range = document.querySelector(`.scroll-range[data-target="${scrollAreaId}"]`);
+    if (!range) return;
+
+    // Avoid re-binding events multiple times
+    if (area._scrollControlsInitialized) {
+        // still refresh visibility and values
+        refreshRange();
+        return;
+    }
+
+    function refreshRange() {
+        // measure after layout
+        window.requestAnimationFrame(() => {
+            const max = Math.max(0, area.scrollWidth - area.clientWidth);
+            range.max = max;
+            range.value = area.scrollLeft;
+            // show or hide controls depending on whether overflow exists
+            const control = range.closest('.h-scroll-controls');
+            if (control) {
+                control.style.display = (max === 0 ? 'none' : 'flex');
+            } else {
+                // fallback: find container with matching range
+                const controls = document.querySelectorAll('.h-scroll-controls');
+                const targetControls = Array.from(controls).find(c => c.querySelector(`.scroll-range[data-target="${scrollAreaId}"]`));
+                if (targetControls) targetControls.style.display = (max === 0 ? 'none' : 'flex');
+            }
+        });
+    }
+
+    // initialize
+    refreshRange();
+    // also refresh after a small timeout in case fonts/images change layout
+    setTimeout(refreshRange, 250);
+
+    // sync scrolling -> range
+    const onAreaScroll = () => { range.value = area.scrollLeft; };
+    area.addEventListener('scroll', onAreaScroll);
+
+    // sync range -> scrolling
+    const onRangeInput = () => { area.scrollLeft = parseInt(range.value, 10); };
+    range.addEventListener('input', onRangeInput);
+
+    // left/right buttons
+    const leftBtn = document.querySelector(`.scroll-left[data-target="${scrollAreaId}"]`);
+    const rightBtn = document.querySelector(`.scroll-right[data-target="${scrollAreaId}"]`);
+    const step = Math.max(80, Math.round(area.clientWidth / 2));
+    if (leftBtn) leftBtn.addEventListener('click', () => { area.scrollBy({ left: -step, behavior: 'smooth' }); });
+    if (rightBtn) rightBtn.addEventListener('click', () => { area.scrollBy({ left: step, behavior: 'smooth' }); });
+
+    // refresh on resize
+    let resizeTimeout;
+    const onResize = () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(refreshRange, 150); };
+    window.addEventListener('resize', onResize);
+
+    // mark initialized to avoid duplicate bindings
+    area._scrollControlsInitialized = true;
+    area._scrollControlsCleanup = () => {
+        area.removeEventListener('scroll', onAreaScroll);
+        range.removeEventListener('input', onRangeInput);
+        window.removeEventListener('resize', onResize);
+    };
+}
+
+// ensure we refresh both scroll controls after full load (in case images/fonts changed widths)
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        try { updateScrollControlsFor('passenger-itinerary-scroll'); } catch(e) {}
+        try { updateScrollControlsFor('cargo-itinerary-scroll'); } catch(e) {}
+    }, 350);
+});
 function populateAirlineFilter() {
     const filterSelect = document.getElementById('airline-filter');
     if (!filterSelect) return;
