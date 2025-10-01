@@ -15,8 +15,16 @@ const staticData = {
     }
 };
 const dashboardData = {
-    users: { "David Pacheco": { password: "2468", canViewItinerarioMensual: true }, "Isaac López": { password: "18052003", canViewItinerarioMensual: false }, "Mauro Hernández": { password: "Mauro123", canViewItinerarioMensual: true }, "Emily Beltrán": { password: "Emily67", canViewItinerarioMensual: true }, "Director General": { password: "Dirección71", canViewItinerarioMensual: true }, "Director de Operaciones": { password: "DirecciónNLU", canViewItinerarioMensual: true } },
-    pdfSections: { "itinerario-mensual": { title: "Itinerario Mensual", url: "pdfs/itinerario_mensual.pdf" }, }
+    users: {
+        "David Pacheco": { password: "2468", canViewItinerarioMensual: true },
+        "Isaac López": { password: "18052003", canViewItinerarioMensual: false },
+        "Mauro Hernández": { password: "Mauro123", canViewItinerarioMensual: true },
+        "Emily Beltrán": { password: "Emily67", canViewItinerarioMensual: true },
+        "Director General": { password: "Dirección71", canViewItinerarioMensual: true },
+        "Director de Operaciones": { password: "DirecciónNLU", canViewItinerarioMensual: true },
+        "Mateos": { password: "2025M", canViewItinerarioMensual: true }
+    },
+    pdfSections: { "itinerario-mensual": { title: "Itinerario Mensual", url: "pdfs/itinerario_mensual.pdf" } }
 };
 let allFlightsData = [];
 let passengerAirlines = ["Viva", "Volaris", "Aeromexico", "Mexicana de Aviación", "Aeurus", "Arajet"];
@@ -44,7 +52,9 @@ function setupEventListeners() {
     document.getElementById('login-form').addEventListener('submit', handleLogin);
     document.getElementById('sidebar-nav').addEventListener('click', handleNavigation);
     document.getElementById('airline-filter').addEventListener('change', applyFilters);
-    document.getElementById('claim-filter').addEventListener('input', applyFilters);
+    // search input for banda de reclamo (specific) and a global search box
+    const claimInput = document.getElementById('claim-filter'); if (claimInput) claimInput.addEventListener('input', applyFilters);
+    const globalSearch = document.getElementById('global-search'); if (globalSearch) globalSearch.addEventListener('input', applyFilters);
     // position select (populated from JSON)
     const posSelect = document.getElementById('position-filter'); if (posSelect) posSelect.addEventListener('change', applyFilters);
     document.getElementById('theme-toggler').addEventListener('click', toggleTheme);
@@ -159,16 +169,18 @@ async function loadItineraryData() {
     }
 }
 function applyFilters() {
-    const selectedAirline = document.getElementById('airline-filter').value;
-    const claimFilterValue = document.getElementById('claim-filter').value.trim().toLowerCase();
+    const selectedAirlineRaw = document.getElementById('airline-filter').value;
+    const selectedAirline = (selectedAirlineRaw || '').toString().trim();
+    const claimFilterValue = document.getElementById('claim-filter') ? document.getElementById('claim-filter').value.trim().toLowerCase() : '';
+    const globalSearchValue = document.getElementById('global-search') ? document.getElementById('global-search').value.trim().toLowerCase() : '';
     // position is now a select populated from JSON
     const posFilterVal = document.getElementById('position-filter') ? document.getElementById('position-filter').value : 'all';
     let filteredData = allFlightsData;
-    if (selectedAirline !== 'all') { filteredData = filteredData.filter(flight => flight.aerolinea === selectedAirline); }
+    if (selectedAirline && selectedAirline !== 'all') { filteredData = filteredData.filter(flight => (flight.aerolinea || '').toString().trim() === selectedAirline); }
     // Prefer categorization via 'categoria' field when available
     let passengerFlights = filteredData.filter(f => (f.categoria && f.categoria.toLowerCase() === 'pasajeros') || passengerAirlines.includes(f.aerolinea));
     let cargoFlights = filteredData.filter(f => (f.categoria && f.categoria.toLowerCase() === 'carga') || cargoAirlines.includes(f.aerolinea));
-    if (claimFilterValue !== '') { passengerFlights = passengerFlights.filter(flight => flight.banda_reclamo && flight.banda_reclamo.toLowerCase().includes(claimFilterValue)); }
+    if (claimFilterValue !== '') { passengerFlights = passengerFlights.filter(flight => (flight.banda_reclamo || '').toString().toLowerCase().includes(claimFilterValue)); }
     // position filter (select) - applies to both (value 'all' means no filter)
     if (posFilterVal && posFilterVal !== 'all') {
         const posLower = posFilterVal.toString().toLowerCase();
@@ -176,8 +188,9 @@ function applyFilters() {
         cargoFlights = cargoFlights.filter(f => (f.posicion || '').toString().toLowerCase() === posLower);
     }
     // global text search across common fields
-    if (claimFilterValue !== '') {
-        const term = claimFilterValue;
+    // If global search has content, use it to search across airline, origen, destino, vuelo, banda
+    if (globalSearchValue !== '') {
+        const term = globalSearchValue;
         const matchFn = (f) => {
             return ((f.aerolinea || '').toString().toLowerCase().includes(term)) || ((f.origen || '').toString().toLowerCase().includes(term)) || ((f.destino || '').toString().toLowerCase().includes(term)) || ((f.vuelo_llegada || '').toString().toLowerCase().includes(term)) || ((f.vuelo_salida || '').toString().toLowerCase().includes(term)) || ((f.banda_reclamo || '').toString().toLowerCase().includes(term));
         };
@@ -387,39 +400,31 @@ function displayCargoTable(flights) {
 function populateAirlineFilter() {
     const filterSelect = document.getElementById('airline-filter');
     if (!filterSelect) return;
-    // Build dynamic lists from loaded data (allFlightsData)
-    const paxSet = new Set();
-    const cargSet = new Set();
+    // Collect all unique airline names from the JSON (normalized)
+    const airlinesSet = new Set();
     allFlightsData.forEach(f => {
-        const name = (f.aerolinea || '').trim();
-        const cat = (f.categoria || '').toString().toLowerCase();
-        if (!name) return;
-        if (cat === 'pasajeros') paxSet.add(name);
-        else if (cat === 'carga') cargSet.add(name);
-        else {
-            // If category unknown, try to detect by known lists
-            if (passengerAirlines.includes(name)) paxSet.add(name);
-            else if (cargoAirlines.includes(name)) cargSet.add(name);
-            else paxSet.add(name);
-        }
+        const raw = (f.aerolinea || '').toString().trim();
+        if (raw) airlinesSet.add(raw);
     });
-    // Fallback to previous static arrays if none found
-    if (paxSet.size === 0 && passengerAirlines.length > 0) passengerAirlines.forEach(a => paxSet.add(a));
-    if (cargSet.size === 0 && cargoAirlines.length > 0) cargoAirlines.forEach(a => cargSet.add(a));
+    // Fallback to static lists if JSON empty
+    if (airlinesSet.size === 0) {
+        passengerAirlines.concat(cargoAirlines).forEach(a => airlinesSet.add(a));
+    }
 
-    // Update global lists so other logic (applyFilters) uses current values
-    passengerAirlines = Array.from(paxSet).sort();
-    cargoAirlines = Array.from(cargSet).sort();
+    const airlines = Array.from(airlinesSet).sort((a,b) => a.localeCompare(b, 'es'));
+
+    // Update global passenger/cargo lists conservatively (keep existing classification)
+    passengerAirlines = passengerAirlines.filter(a => airlinesSet.has(a));
+    cargoAirlines = cargoAirlines.filter(a => airlinesSet.has(a));
 
     filterSelect.innerHTML = '<option value="all" selected>Todas las aerolíneas</option>';
-    const passengerGroup = document.createElement('optgroup');
-    passengerGroup.label = 'Pasajeros';
-    passengerAirlines.forEach(airline => { const option = document.createElement('option'); option.value = airline; option.textContent = airline; passengerGroup.appendChild(option); });
-    filterSelect.appendChild(passengerGroup);
-    const cargoGroup = document.createElement('optgroup');
-    cargoGroup.label = 'Carga';
-    cargoAirlines.forEach(airline => { const option = document.createElement('option'); option.value = airline; option.textContent = airline; cargoGroup.appendChild(option); });
-    filterSelect.appendChild(cargoGroup);
+    // Add all airlines as flat list to avoid missing any entry
+    airlines.forEach(airline => {
+        const option = document.createElement('option');
+        option.value = airline; // exact trimmed name
+        option.textContent = airline;
+        filterSelect.appendChild(option);
+    });
 }
 function populateOpsTable(baseId, data, valueKey) {
     const tbody = document.getElementById(`${baseId}-tbody`);
