@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,11 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <div id="login-screen" class="login-screen">
         <div class="login-overlay"></div>
-            <div class="login-container">
+        <div class="login-container">
             <div class="login-header">
                 <img src="images/emblema-aviacion.png" alt="Emblema de la Aviación" class="login-logo" />
                 <h1 id="login-title" class="h3">OPERACIONES-AIFA</h1>
@@ -23,29 +25,31 @@
             </div>
             <form id="login-form" class="login-form">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username" name="username" required placeholder="Ingrese su usuario">
+                    <input type="text" class="form-control" id="username" name="username" required placeholder="Ingrese su usuario" autocomplete="username">
                     <label for="username">Usuario</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password" name="password" required placeholder="Ingrese su contraseña">
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="Ingrese su contraseña" autocomplete="current-password">
                     <label for="password">Contraseña</label>
                 </div>
                 <button type="submit" id="login-button" class="btn btn-primary w-100 py-2">
                     <span class="btn-text">Iniciar Sesión</span>
-                    <span class="spinner"></span>
+                    <span class="spinner-plane" aria-hidden="true"></span>
                 </button>
                 <div id="login-error" class="text-danger mt-2"></div>
             </form>
-                                                </div>
+        </div>
     </div>
 
     <div id="main-app" class="main-app hidden">
         <header class="header p-3">
-            <div id="flying-plane"><div class="contrail"></div></div>
+            <div id="flying-plane">
+                <div class="contrail"></div>
+            </div>
             <div class="container-fluid">
                 <div class="header-content d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
-                         <button class="btn sidebar-toggler-btn" type="button" id="sidebar-toggler">
+                        <button class="btn sidebar-toggler-btn" type="button" id="sidebar-toggler">
                             <i class="fas fa-bars"></i>
                         </button>
                         <img src="images/aifa-logo.jpg" alt="Logo AIFA" class="aifa-logo" />
@@ -90,13 +94,13 @@
                     <a class="menu-item active" href="#" data-section="inicio"><i class="fas fa-home"></i><span>Inicio</span></a>
                     <a class="menu-item" href="#" data-section="itinerario"><i class="fas fa-calendar-alt"></i><span>Itinerario</span></a>
                     <a class="menu-item" href="#" data-section="parte-operaciones"><i class="fas fa-file-invoice"></i><span>Parte de Operaciones</span></a>
-                        <a class="menu-item" href="#" data-section="puntualidad-agosto">
-                            <span class="icon-clock-check" aria-hidden="true">
-                                <i class="fas fa-clock"></i>
-                                <i class="fas fa-check check" aria-hidden="true"></i>
-                            </span>
-                            <span>Puntualidad</span>
-                        </a>
+                    <a class="menu-item" href="#" data-section="puntualidad-agosto">
+                        <span class="icon-clock-check" aria-hidden="true">
+                            <i class="fas fa-clock"></i>
+                            <i class="fas fa-check check" aria-hidden="true"></i>
+                        </span>
+                        <span>Puntualidad</span>
+                    </a>
                     <a class="menu-item" href="#" data-section="demoras"><i class="fas fa-clock"></i><span>Demoras</span></a>
                     <a class="menu-item" href="#" data-section="operaciones-totales"><i class="fas fa-clipboard-check"></i><span>Operaciones Totales</span></a>
                     <a class="menu-item" id="itinerario-mensual-menu" href="#" data-section="itinerario-mensual"><i class="fas fa-table"></i><span>Itinerario Mensual (Octubre)</span></a>
@@ -107,7 +111,7 @@
             <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
             <main class="main-content flex-grow-1 p-3 p-md-4">
-                
+
                 <div id="inicio-section" class="content-section active">
                     <div class="card">
                         <div class="card-header">
@@ -135,26 +139,25 @@
                                                     <h5 class="mb-0">Filtros de Búsqueda</h5>
                                                 </div>
                                                 <div class="input-group">
-                                                        <select id="airline-filter" class="form-select">
-                                                            <option value="all" selected>Todas las Aerolíneas</option>
+                                                    <select id="airline-filter" class="form-select">
+                                                        <option value="all" selected>Todas las Aerolíneas</option>
+                                                    </select>
+                                                    <input type="text" id="claim-filter" class="form-control" placeholder="Filtrar por banda de reclamo...">
+                                                </div>
+                                                <div class="mt-2 d-flex gap-2 flex-wrap align-items-center">
+                                                    <div class="input-group input-group-sm" style="min-width:220px;">
+                                                        <label class="input-group-text">Posición</label>
+                                                        <select id="position-filter" class="form-select">
+                                                            <option value="all" selected>Todas las posiciones</option>
                                                         </select>
-                                                        <input type="text" id="claim-filter" class="form-control" placeholder="Filtrar por banda de reclamo...">
                                                     </div>
-                                                    <div class="mt-2 d-flex gap-2 flex-wrap align-items-center">
-                                                        <div class="input-group input-group-sm" style="min-width:220px;">
-                                                            <label class="input-group-text">Posición</label>
-                                                            <select id="position-filter" class="form-select">
-                                                                <option value="all" selected>Todas las posiciones</option>
-                                                            </select>
-                                                        </div>
-                                                        <div style="min-width:200px;">
-                                                            <!-- Búsqueda global de texto: aerolínea, origen, destino, vuelo, banda, etc. -->
-                                                            <input type="text" id="global-search" class="form-control form-control-sm" placeholder="Buscar texto (aerolinea/origen/destino/vuelo/banda)...">
-                                                        </div>
-                                                        <div class="mt-2">
-                                                            <button id="clear-filters" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
-                                                        </div>
+                                                    <div style="min-width:200px;">
+                                                        <input type="text" id="global-search" class="form-control form-control-sm" placeholder="Buscar texto (aerolinea/origen/destino/vuelo/banda)...">
                                                     </div>
+                                                    <div class="mt-2">
+                                                        <button id="clear-filters" class="btn btn-outline-secondary btn-sm">Limpiar filtros</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <h4 class="mb-3"><i class="fas fa-plane-departure me-2"></i>Itinerario de Pasajeros</h4>
                                             <div class="itinerary-horizontal">
@@ -183,7 +186,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="pdf-inicio-pane" role="tabpanel" aria-labelledby="pdf-inicio-tab" tabindex="0">
-                                      <div class="pdf-container">
+                                    <div class="pdf-container">
                                         <a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a>
                                         <iframe src="pdfs/Itinerario.pdf" width="100%" height="700px" class="border-0"></iframe>
                                     </div>
@@ -203,7 +206,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <!-- (Removed) Resumen rápido por aerolínea: se elimina para mostrar solo los PDFs en Itinerario Detallado -->
                             <ul class="nav nav-tabs" id="itineraryTab" role="tablist">
                                 <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pasajeros-grafica-pane">1. Gráfica (Pasajeros)</button></li>
                                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#carga-grafica-pane">2. Gráfica (Carga)</button></li>
@@ -211,10 +213,18 @@
                                 <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#carga-calor-pane">4. Mapa de Calor (Carga)</button></li>
                             </ul>
                             <div class="tab-content pt-3" id="itineraryTabContent">
-                                <div class="tab-pane fade show active" id="pasajeros-grafica-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/grafica_pasajeros.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
-                                <div class="tab-pane fade" id="carga-grafica-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/grafica_carga.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
-                                <div class="tab-pane fade" id="pasajeros-calor-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/mapa_calor_pasajeros.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
-                                <div class="tab-pane fade" id="carga-calor-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/mapa_calor_carga.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
+                                <div class="tab-pane fade show active" id="pasajeros-grafica-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/grafica_pasajeros.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
+                                <div class="tab-pane fade" id="carga-grafica-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/grafica_carga.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
+                                <div class="tab-pane fade" id="pasajeros-calor-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/mapa_calor_pasajeros.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
+                                <div class="tab-pane fade" id="carga-calor-pane">
+                                    <div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/mapa_calor_carga.pdf" width="100%" height="700px" class="border-0"></iframe></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -248,13 +258,21 @@
 
                 <div id="demoras-section" class="content-section">
                     <div class="card">
-                        <div class="card-header"><h2 class="mb-0" id="demoras-title">Análisis de Demoras</h2></div>
+                        <div class="card-header">
+                            <h2 class="mb-0" id="demoras-title">Análisis de Demoras</h2>
+                        </div>
                         <div class="card-body">
                             <div class="mb-4">
                                 <h3 class="h5 text-center mb-3">Demoras en vuelos de salida</h3>
                                 <div class="table-responsive">
                                     <table class="table table-bordered text-center">
-                                        <thead class="table-dark"><tr><th>Causa</th><th>Demoras</th><th>Porcentaje</th></tr></thead>
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Causa</th>
+                                                <th>Demoras</th>
+                                                <th>Porcentaje</th>
+                                            </tr>
+                                        </thead>
                                         <tbody id="demoras-tbody"></tbody>
                                         <tfoot id="demoras-tfoot"></tfoot>
                                     </table>
@@ -266,87 +284,105 @@
                 </div>
 
                 <div id="operaciones-totales-section" class="content-section">
-                    <div class="card">
-                        <div class="card-header"><h2 class="mb-0">Operaciones Totales (Comparación 2022-2025) </h2></div>
-                            <div class="update-note mt-2 d-flex align-items-center">
-                                <i class="fas fa-calendar-check me-2" aria-hidden="true"></i>
-                                <small>Datos actualizados hasta el <strong>30 de septiembre de 2025</strong></small>
-                            </div>
+                    <div class="card border-0">
+                        <div class="card-header bg-transparent d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <h2 class="mb-2 mb-md-0">Operaciones Totales (Visualización)</h2>
+                            <div class="update-note d-flex align-items-center"><i class="fas fa-calendar-check me-2"></i><small>Actualizado al <strong>30 septiembre 2025</strong></small></div>
+                        </div>
                         <div class="card-body">
-                            <ul class="nav nav-tabs" id="opTotalesTab" role="tablist">
-                                <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#resumen-tablas-pane">Resumen de Operaciones</button></li>
-                                <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#informe-estadistico-pane">Informe Estadístico</button></li>
-                            </ul>
-                            <div class="tab-content pt-3" id="opTotalesTabContent">
-                                <div class="tab-pane fade show active" id="resumen-tablas-pane">
-                                    <div class="card-op-container card border-0 shadow-sm mb-4">
-                                        <div class="card-header bg-transparent d-flex align-items-center"><i class="fas fa-plane-departure fa-2x text-primary me-3"></i><h3 class="mb-0 h5">Aviación Comercial</h3></div>
-                                        <div class="card-body"><div class="row align-items-center"><div class="col-lg-6"><div class="table-responsive">
-                                            <table class="table table-stylish">
-                                                <thead><tr><th class="text-start">PERIODO</th><th class="text-end">OPERACIONES</th><th class="text-end">PASAJEROS</th></tr></thead>
-                                                <tbody id="comercial-ops-tbody"></tbody>
-                                                <tfoot class="table-stylish-footer">
-                                                    <tr>
-                                                        <td class="text-start">TOTAL (Histórico)</td>
-                                                        <td class="text-end" id="total-comercial-ops">0</td>
-                                                        <td class="text-end" id="total-comercial-pax">0</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div></div><div class="col-lg-6"><div class="chart-container" style="height: 300px;"><canvas id="commercialOpsChart"></canvas></div></div></div></div>
+                            <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="toggle-sma">
+                                    <label class="form-check-label small" for="toggle-sma">Tendencia (SMA 3)</label>
+                                </div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 small fw-bold" id="ops-sections-filters">
+                                    <span class="text-muted me-1">Secciones:</span>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-section-comercial" checked>
+                                        <label class="form-check-label" for="filter-section-comercial">Comercial</label>
                                     </div>
-                                    <div class="card-op-container card border-0 shadow-sm mb-4">
-                                        <div class="card-header bg-transparent d-flex align-items-center"><i class="fas fa-box-open fa-2x text-primary me-3"></i><h3 class="mb-0 h5">Operaciones de Carga</h3></div>
-                                        <div class="card-body"><div class="row align-items-center"><div class="col-lg-6"><div class="table-responsive">
-                                            <table class="table table-stylish">
-                                                <thead><tr><th class="text-start">PERIODO</th><th class="text-end">OPERACIONES</th><th class="text-end">TONELADAS</th></tr></thead>
-                                                <tbody id="cargo-ops-tbody"></tbody>
-                                                <tfoot class="table-stylish-footer">
-                                                    <tr>
-                                                        <td class="text-start">TOTAL (Histórico)</td>
-                                                        <td class="text-end" id="total-cargo-ops">0</td>
-                                                        <td class="text-end" id="total-cargo-tons">0</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div></div><div class="col-lg-6"><div class="chart-container" style="height: 300px;"><canvas id="cargoOpsChart"></canvas></div></div></div></div>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-section-carga" checked>
+                                        <label class="form-check-label" for="filter-section-carga">Carga</label>
                                     </div>
-                                    <div class="card-op-container card border-0 shadow-sm">
-                                        <div class="card-header bg-transparent d-flex align-items-center"><i class="fas fa-plane fa-2x text-primary me-3"></i><h3 class="mb-0 h5">Aviación General</h3></div>
-                                        <div class="card-body"><div class="row align-items-center"><div class="col-lg-6"><div class="table-responsive">
-                                            <table class="table table-stylish">
-                                                <thead><tr><th class="text-start">PERIODO</th><th class="text-end">OPERACIONES</th><th class="text-end">PASAJEROS</th></tr></thead>
-                                                <tbody id="general-ops-tbody"></tbody>
-                                                <tfoot class="table-stylish-footer">
-                                                    <tr>
-                                                        <td class="text-start">TOTAL (Histórico)</td>
-                                                        <td class="text-end" id="total-general-ops">0</td>
-                                                        <td class="text-end" id="total-general-pax">0</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div></div><div class="col-lg-6"><div class="chart-container" style="height: 300px;"><canvas id="generalOpsChart"></canvas></div></div></div></div>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-section-general" checked>
+                                        <label class="form-check-label" for="filter-section-general">General</label>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="informe-estadistico-pane"><div class="pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/informe_estadistico.pdf" width="100%" height="700px" class="border-0"></iframe></div></div>
+                                <div class="d-flex flex-wrap align-items-center gap-2 small fw-bold" id="ops-years-filters">
+                                    <span class="text-muted me-1">Años:</span>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-year-2022" data-year="2022" checked>
+                                        <label class="form-check-label" for="filter-year-2022">2022</label>
+                                    </div>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-year-2023" data-year="2023" checked>
+                                        <label class="form-check-label" for="filter-year-2023">2023</label>
+                                    </div>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-year-2024" data-year="2024" checked>
+                                        <label class="form-check-label" for="filter-year-2024">2024</label>
+                                    </div>
+                                    <div class="form-check form-check-inline m-0">
+                                        <input class="form-check-input" type="checkbox" id="filter-year-2025" data-year="2025" checked>
+                                        <label class="form-check-label" for="filter-year-2025">2025</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="text-uppercase text-muted fw-bold mb-3"><span class="section-icon icon-commercial">✈</span>Aviación Comercial</h5>
+                            <div class="row g-3 mb-4" id="commercial-group">
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="commercialOpsChart"></canvas></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="commercialPaxChart"></canvas></div>
+                                </div>
+                            </div>
+                            <h5 class="text-uppercase text-muted fw-bold mb-3 mt-4"><span class="section-icon icon-cargo">⛟</span>Operaciones de Carga</h5>
+                            <div class="row g-3 mb-4" id="cargo-group">
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="cargoOpsChart"></canvas></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="cargoTonsChart"></canvas></div>
+                                </div>
+                            </div>
+                            <h5 class="text-uppercase text-muted fw-bold mb-3 mt-4"><span class="section-icon icon-general">🛩</span>Aviación General</h5>
+                            <div class="row g-3 mb-4" id="general-group">
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="generalOpsChart"></canvas></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="chart-container" style="height:320px"><canvas id="generalPaxChart"></canvas></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="itinerario-mensual-section" class="content-section">
-                    <div class="card"><div class="card-header text-center"><h2 class="mb-0">ITINERARIO MENSUAL (OCTUBRE) </h2></div><div class="card-body pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/itinerario_mensual.pdf" width="100%" height="800px" class="border-0"></iframe></div></div>
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h2 class="mb-0">ITINERARIO MENSUAL (OCTUBRE) </h2>
+                        </div>
+                        <div class="card-body pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/itinerario_mensual.pdf" width="100%" height="800px" class="border-0"></iframe></div>
+                    </div>
                 </div>
                 <div id="puntualidad-agosto-section" class="content-section">
                     <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-center"><i class="fas fa-clock-check fa-2x text-primary me-3"></i><h2 class="mb-0">PUNTUALIDAD AEROLINEAS - SEPTIEMBRE</h2></div>
+                        <div class="card-header d-flex align-items-center justify-content-center"><i class="fas fa-clock-check fa-2x text-primary me-3"></i>
+                            <h2 class="mb-0">PUNTUALIDAD AEROLINEAS - SEPTIEMBRE</h2>
+                        </div>
                         <div class="card-body pdf-container"><a href="#" class="pdf-zoom-btn" title="Ampliar PDF"><i class="fas fa-search-plus"></i></a><iframe src="pdfs/puntualidad_agosto.pdf" width="100%" height="800px" class="border-0"></iframe></div>
                     </div>
                 </div>
-                
+
                 <div id="comparativa-section" class="content-section">
-                     <div class="card border-0">
-                        <div class="card-header bg-transparent"><h2 class="mb-0">Análisis Comparativo</h2></div>
+                    <div class="card border-0">
+                        <div class="card-header bg-transparent">
+                            <h2 class="mb-0">Análisis Comparativo</h2>
+                        </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
@@ -366,25 +402,35 @@
             </main>
         </div>
     </div>
-    
+
     <div id="pdf-lightbox" class="pdf-lightbox hidden">
         <button id="lightbox-close" class="lightbox-close">&times;</button>
         <div id="lightbox-content" class="lightbox-content"></div>
     </div>
 
-        <!-- Toast for actions -->
-        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2050">
-            <div id="action-toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">Filtros limpiados</div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
-                </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2050">
+        <div id="action-toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">Filtros limpiados</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
             </div>
         </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="script.js"></script>
+    <!-- Loader Global -->
+    <div id="global-loader" class="global-loader hidden" role="alert" aria-live="assertive" aria-busy="true">
+        <div class="loader-content">
+            <div class="plane-orbit">
+                <span class="orbit-ring"></span>
+                <span class="plane-icon">✈</span>
+            </div>
+            <div class="loader-text" id="global-loader-text">Cargando...</div>
+        </div>
+    </div>
 </body>
 </html>
