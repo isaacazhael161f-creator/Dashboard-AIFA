@@ -29,7 +29,187 @@ const dashboardData = {
 let allFlightsData = [];
 let passengerAirlines = ["Viva", "Volaris", "Aeromexico", "Mexicana de Aviación", "Aeurus", "Arajet"];
 let cargoAirlines = ["MasAir", "China Southerrn", "Lufthansa", "Kalitta Air", "Aerounión", "Emirates Airlines", "Atlas Air", "Silk Way West Airlines", "Cathay Pacific", "United Parcel Service", "Turkish Airlines", "Cargojet Airways", "Air Canada", "Cargolux"];
-const airlineColors = { "Viva": "#00b200", "Volaris": "#6f2da8", "Aeromexico": "#00008b", "Mexicana de Aviación": "#a52a2a", "Aeurus": "#ff4500", "Arajet": "#00ced1", "MasAir": "#4682b4", "China Southerrn": "#c71585", "Lufthansa": "#ffcc00", "Kalitta Air": "#dc143c", "Aerounión": "#2e8b57", "Emirates Airlines": "#d4af37", "Atlas Air": "#808080", "Silk Way West Airlines": "#f4a460", "Cathay Pacific": "#006400", "United Parcel Service": "#5f4b32", "Turkish Airlines": "#e81123", "Cargojet Airways": "#f0e68c", "Air Canada": "#f00", "Cargolux": "#00a0e2" };
+const airlineColors = { "Viva": "#00b200", "Volaris": "#6f2da8", "Aeromexico": "#00008b", "Mexicana de Aviación": "#a52a2a", "Aerus": "#ff4500", "Arajet": "#00ced1", "MasAir": "#4682b4", "China Southerrn": "#c71585", "Lufthansa": "#ffcc00", "Kalitta Air": "#dc143c", "Aerounión": "#2e8b57", "Emirates Airlines": "#d4af37", "Atlas Air": "#808080", "Silk Way West Airlines": "#f4a460", "Cathay Pacific": "#006400", "United Parcel Service": "#5f4b32", "Turkish Airlines": "#e81123", "Cargojet Airways": "#f0e68c", "Air Canada": "#f00", "Cargolux": "#00a0e2" };
+
+// ===================== Logos de Aerolíneas =====================
+// Mapa flexible: nombre normalizado (minúsculas, sin acentos) -> slug de archivo
+// Nota: ahora usamos una lista de candidatos por aerolínea (archivos reales en images/airlines)
+const airlineLogoFileMap = {
+    // Pasajeros
+    'viva': ['logo_viva.png'],
+    'viva aerobus': ['logo_viva.png'],
+    'volaris': ['logo_volaris.png'],
+    'aeromexico': ['logo_aeromexico.jpg','logo_aeromexico.png'],
+    'aeroméxico': ['logo_aeromexico.jpg','logo_aeromexico.png'],
+    'mexicana de aviacion': ['logo_mexicana_de_aviacion.jpg','logo_mexicana.jpg'],
+    'mexicana de aviación': ['logo_mexicana_de_aviacion.jpg','logo_mexicana.jpg'],
+    'aerus': ['logo_aerus.png'],
+    'aeurus': ['logo_aerus.png'],
+    'arajet': ['logo_arajet.png','logo_arajet.jpg'],
+    // Carga y otras
+    'masair': ['logo_mas.png','logo_masair.png'],
+    'mas air': ['logo_mas.png','logo_masair.png'],
+    'aerounion': ['loho_aero_union.png','logo_aerounion.png'],
+    'aerounión': ['loho_aero_union.png','logo_aerounion.png'],
+    'aero union': ['loho_aero_union.png','logo_aerounion.png'],
+    'air canada': ['logo_air_canada_.png','logo_air_canada.png'],
+    'air canada cargo': ['logo_air_canada_.png','logo_air_canada.png'],
+    'air france': ['logo_air_france_.png','logo_air_france.png'],
+    'amerijet international': ['logo_amerijet_international.png'],
+    'atlas air': ['logo_atlas_air.png','logo_atlas.png'],
+    'cargojet airways': ['logo_cargojet.png'],
+    'cargojet': ['logo_cargojet.png'],
+    'cargolux': ['logo_cargolux.png'],
+    'cathay pacific': ['logo_cathay_pacific.png','logo_cathay.png'],
+    'conviasa': ['logo_conviasa.png'],
+    'copa': ['logo_copa.png'],
+    'dhl': ['logo_dhl_guatemala_.png'],
+    'dhl guatemala': ['logo_dhl_guatemala_.png'],
+    'estafeta': ['logo_estafeta.jpg'],
+    'ethiopian airlines': ['logo_ethiopian_airlines.png'],
+    'kalitta air': ['logo_kalitta_air.jpg','logo_kalitta.png'],
+    'lufthansa': ['logo_lufthansa.png'],
+    'lufthansa cargo': ['logo_lufthansa.png'],
+    'silk way west airlines': ['logo_silk_way_west_airlines.png','logo_silkway.png'],
+    'sun country airlines': ['logo_sun_country_airlines.png'],
+    'united parcel service': ['logo_united_parcel_service.png'],
+    'ups': ['logo_united_parcel_service.png'],
+    'ifl group': ['lofo_ifl_group.png'],
+    'china southern': ['logo_china_southern.png'],
+    'china southerrn': ['logo_china_southern.png']
+};
+// Compat: entradas antiguas -> slug "base" sin extensión
+const airlineLogoSlugMap = {
+    'viva': 'logo_viva',
+    'viva aerobus': 'logo_viva',
+    'volaris': 'logo_volaris',
+    'aeromexico': 'logo_aeromexico',
+    'aeroméxico': 'logo_aeromexico',
+    'mexicana de aviacion': 'logo_mexicana',
+    'mexicana de aviación': 'logo_mexicana',
+    'aerus': 'logo_aerus',
+    'aeurus': 'logo_aerus',
+    'arajet': 'logo_arajet',
+    'masair': 'logo_masair',
+    'mas air': 'logo_masair',
+    'china southern': 'logo_china_southern',
+    'china southerrn': 'logo_china_southern', // corrección tipográfica
+    'lufthansa': 'logo_lufthansa',
+    'lufthansa cargo': 'logo_lufthansa',
+    'kalitta air': 'logo_kalitta',
+    'aerounion': 'logo_aerounion',
+    'aerounión': 'logo_aerounion',
+    'emirates': 'logo_emirates',
+    'emirates airlines': 'logo_emirates',
+    'emirates skycargo': 'logo_emirates',
+    'atlas air': 'logo_atlas',
+    'silk way west airlines': 'logo_silkway',
+    'silk way west': 'logo_silkway',
+    'cathay pacific': 'logo_cathay',
+    'cathay pacific cargo': 'logo_cathay',
+    'united parcel service': 'logo_ups',
+    'ups': 'logo_ups',
+    'turkish airlines': 'logo_turkish',
+    'turkish cargo': 'logo_turkish',
+    'cargojet airways': 'logo_cargojet',
+    'cargojet': 'logo_cargojet',
+    'air canada': 'logo_air_canada',
+    'air canada cargo': 'logo_air_canada',
+    'cargolux': 'logo_cargolux'
+};
+
+// Algunas marcas tienen logos con proporciones que se perciben más pequeños; dales un boost
+const BOOST_LOGO_SET = new Set([
+    'cathay pacific',
+    'atlas air',
+    'air canada',
+    'air france',
+    'mexicana de aviacion',
+    'mexicana de aviación',
+    'mexicana'
+]);
+
+function getLogoSizeClass(airlineName, context = 'table') {
+    const key = normalizeAirlineName(airlineName || '');
+    // Por defecto usamos grande; si está en la lista, usamos XL
+    if (BOOST_LOGO_SET.has(key)) return 'xl';
+    // Para consistencia visual, tanto en resumen como en tablas usamos 'lg'
+    return 'lg';
+}
+
+function normalizeAirlineName(name = ''){
+    const s = (name || '').toString().trim().toLowerCase();
+    // quitar acentos simples
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function getAirlineLogoCandidates(airline){
+    const key = normalizeAirlineName(airline);
+    const files = airlineLogoFileMap[key];
+    const candidates = [];
+    if (Array.isArray(files) && files.length){
+        files.forEach(f=>{ candidates.push(`images/airlines/${f}`); });
+    } else {
+        // Generar a partir del nombre normalizado
+        const base = 'logo_' + key.replace(/\s+/g, '_');
+        candidates.push(`images/airlines/${base}.png`);
+        candidates.push(`images/airlines/${base}.jpg`);
+        candidates.push(`images/airlines/${base}.svg`);
+        // Variantes comunes: con subrayado final (air_canada_, air_france_)
+        candidates.push(`images/airlines/${base}_.png`);
+        candidates.push(`images/airlines/${base}_.jpg`);
+        // Variaciones conocidas
+        if (base.includes('aerounion')) candidates.push('images/airlines/loho_aero_union.png');
+        if (base.includes('masair')) candidates.push('images/airlines/logo_mas.png');
+        if (base.includes('silk_way_west') && !base.includes('silkway')) candidates.push('images/airlines/logo_silk_way_west_airlines.png');
+        if (base.includes('air_canada')) candidates.push('images/airlines/logo_air_canada_.png');
+        if (base.includes('air_france')) candidates.push('images/airlines/logo_air_france_.png');
+        if (base.includes('ifl_group')) candidates.push('images/airlines/lofo_ifl_group.png');
+    }
+    // quitar duplicados conservando orden
+    return [...new Set(candidates)];
+}
+function getAirlineLogoPath(airline){
+    const cands = getAirlineLogoCandidates(airline);
+    return cands.length ? cands[0] : null;
+}
+// Fallback para logos: si .png falla probamos .svg una vez; si también falla, ocultamos el <img>
+function handleLogoError(imgEl){
+    try{
+        const list = (imgEl.dataset.cands || '').split('|').filter(Boolean);
+        let idx = parseInt(imgEl.dataset.candIdx || '0', 10);
+        if (list.length && idx < list.length - 1){
+            idx += 1;
+            imgEl.dataset.candIdx = String(idx);
+            imgEl.src = list[idx];
+            return;
+        }
+        // última oportunidad: alternar extensión png<->jpg<->svg en el mismo nombre
+        const current = imgEl.getAttribute('src') || '';
+        const nextByExt = current.endsWith('.png') ? current.replace(/\.png$/i, '.jpg')
+                          : current.endsWith('.jpg') ? current.replace(/\.jpg$/i, '.svg')
+                          : null;
+        if (nextByExt) { imgEl.src = nextByExt; return; }
+        // sin recurso: ocultar img y mantener visible el texto/color
+        imgEl.style.display = 'none';
+        const cell = imgEl.closest('.airline-cell');
+        if (cell) cell.classList.remove('has-logo');
+        const row = imgEl.closest('tr');
+        if (row) row.style.removeProperty('--airline-color');
+        const header = imgEl.closest('.airline-header');
+        if (header) header.classList.remove('airline-has-logo');
+    }catch(_){ imgEl.style.display = 'none'; }
+}
+// Marcar celdas/headers cuando el logo carga correctamente para ocultar texto/color
+function logoLoaded(imgEl){
+    try{
+        const cell = imgEl.closest('.airline-cell');
+        if (cell) cell.classList.add('has-logo');
+        const row = imgEl.closest('tr');
+        if (row) row.style.setProperty('--airline-color','transparent');
+        const header = imgEl.closest('.airline-header');
+        if (header) header.classList.add('airline-has-logo');
+    }catch(_){}
+}
 const charts = {};
 let showSMA = false; // estado global para SMA
 
@@ -250,6 +430,34 @@ function applyFilters() {
         passengerFlights = passengerFlights.filter(matchFn);
         cargoFlights = cargoFlights.filter(matchFn);
     }
+    // Mostrar/ocultar tablas según categoría si hay filtro de aerolínea específico
+    const passContainer = document.getElementById('passenger-itinerary-container');
+    const cargoContainer = document.getElementById('cargo-itinerary-container');
+    const passBlock = document.getElementById('passenger-itinerary-scroll')?.closest('.itinerary-horizontal');
+    const cargoBlock = document.getElementById('cargo-itinerary-scroll')?.closest('.itinerary-horizontal');
+    const isSpecificAirline = !!selectedAirline && selectedAirline !== 'all';
+    if (isSpecificAirline) {
+        const isPassengerAirline = passengerAirlines.includes(selectedAirline) || (filteredData.some(f=> (f.aerolinea||'')===selectedAirline && (f.categoria||'').toLowerCase()==='pasajeros'));
+        const isCargoAirline = cargoAirlines.includes(selectedAirline) || (filteredData.some(f=> (f.aerolinea||'')===selectedAirline && (f.categoria||'').toLowerCase()==='carga'));
+        // Si es de pasajeros, ocultar bloque de carga
+        if (isPassengerAirline && !isCargoAirline) {
+            if (cargoBlock) cargoBlock.style.display = 'none';
+            if (passBlock) passBlock.style.display = '';
+        }
+        // Si es de carga, ocultar bloque de pasajeros
+        else if (isCargoAirline && !isPassengerAirline) {
+            if (passBlock) passBlock.style.display = 'none';
+            if (cargoBlock) cargoBlock.style.display = '';
+        } else {
+            // aerolínea mixta o datos mezclados: mostrar ambos
+            if (passBlock) passBlock.style.display = '';
+            if (cargoBlock) cargoBlock.style.display = '';
+        }
+    } else {
+        if (passBlock) passBlock.style.display = '';
+        if (cargoBlock) cargoBlock.style.display = '';
+    }
+
     displayPassengerTable(passengerFlights);
     displayCargoTable(cargoFlights);
     // update summary based on currently visible (filtered) data
@@ -364,15 +572,17 @@ function displaySummaryTable(flights) {
         const departures = (data.paxSalidas || 0) + (data.cargSalidas || 0);
         const safeId = (airline || 'sin-aerolinea').replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-_]/g, '').toLowerCase();
         const collapseId = `collapse-${safeId}-${index}`;
-        const color = airlineColors[airline] || '#ccc';
+    const color = airlineColors[airline] || '#ccc';
+    const cands = getAirlineLogoCandidates(airline);
+    const logoPath = cands[0];
+    const dataCands = cands.join('|');
+    const sizeClass = getLogoSizeClass(airline, 'summary');
+    const logoHtml = logoPath ? `<img class="airline-logo ${sizeClass} me-2" src="${logoPath}" alt="Logo ${airline}" data-cands="${dataCands}" data-cand-idx="0" onerror="handleLogoError(this)" onload="logoLoaded(this)">` : '';
 
         html += `
         <div class="card">
             <div class="card-body d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center">
-                    <span class="airline-dot me-2" style="background-color: ${color}; width:12px; height:12px; display:inline-block; border-radius:50%;"></span>
-                    <strong>${airline}</strong>
-                </div>
+                <div class="airline-header d-flex align-items-center">${logoHtml}<strong class="airline-name">${airline}</strong></div>
                 <div class="d-flex align-items-center gap-3">
                     <div class="text-center">
                         <div class="fw-bold">${new Intl.NumberFormat('es-MX').format(arrivals)}</div>
@@ -410,8 +620,15 @@ function displayPassengerTable(flights) {
     if (flights.length === 0) { container.innerHTML = `<div class="alert alert-info bg-transparent text-body">No se encontraron vuelos de pasajeros.</div>`; return; }
     let tableHtml = `<table class="table table-hover"><thead><tr><th>Aerolínea</th><th>Vuelo Lleg.</th><th>Fecha Lleg.</th><th>Hora Lleg.</th><th>Origen</th><th>Banda</th><th>Posición</th><th>Vuelo Sal.</th><th>Fecha Sal.</th><th>Hora Sal.</th><th>Destino</th></tr></thead><tbody>`;
     flights.forEach((flight, index) => {
-        tableHtml += `<tr class="animated-row" style="--delay: ${index * 0.08}s; --airline-color: ${airlineColors[flight.aerolinea] || '#ccc'};">
-            <td>${flight.aerolinea}</td>
+        const airlineName = flight.aerolinea || '-';
+    const cands = getAirlineLogoCandidates(airlineName);
+    const logoPath = cands[0];
+    const dataCands = cands.join('|');
+    const sizeClass = getLogoSizeClass(airlineName, 'table');
+    const logoHtml = logoPath ? `<img class="airline-logo ${sizeClass}" src="${logoPath}" alt="Logo ${airlineName}" data-cands="${dataCands}" data-cand-idx="0" onerror="handleLogoError(this)" onload="logoLoaded(this)">` : '';
+        const rowColor = (airlineColors[flight.aerolinea] || '#ccc');
+        tableHtml += `<tr class="animated-row" style="--delay: ${index * 0.08}s; --airline-color: ${rowColor};">
+            <td><div class="airline-cell">${logoHtml}<span class="airline-name">${airlineName}</span></div></td>
             <td>${flight.vuelo_llegada || '-'}</td>
             <td>${flight.fecha_llegada || '-'}</td>
             <td>${flight.hora_llegada || '-'}</td>
@@ -464,8 +681,15 @@ function displayCargoTable(flights) {
     if (flights.length === 0) { container.innerHTML = `<div class="alert alert-info bg-transparent text-body">No se encontraron vuelos de carga.</div>`; return; }
     let tableHtml = `<table class="table table-hover"><thead><tr><th>Aerolínea</th><th>Vuelo Lleg.</th><th>Fecha Lleg.</th><th>Hora Lleg.</th><th>Origen</th><th>Posición</th><th>Vuelo Sal.</th><th>Fecha Sal.</th><th>Hora Sal.</th><th>Destino</th></tr></thead><tbody>`;
     flights.forEach((flight, index) => {
-        tableHtml += `<tr class="animated-row" style="--delay: ${index * 0.08}s; --airline-color: ${airlineColors[flight.aerolinea] || '#ccc'};">
-            <td>${flight.aerolinea}</td>
+        const airlineName = flight.aerolinea || '-';
+    const cands = getAirlineLogoCandidates(airlineName);
+    const logoPath = cands[0];
+    const dataCands = cands.join('|');
+    const sizeClass = getLogoSizeClass(airlineName, 'table');
+    const logoHtml = logoPath ? `<img class="airline-logo ${sizeClass}" src="${logoPath}" alt="Logo ${airlineName}" data-cands="${dataCands}" data-cand-idx="0" onerror="handleLogoError(this)" onload="logoLoaded(this)">` : '';
+        const rowColor = (airlineColors[flight.aerolinea] || '#ccc');
+        tableHtml += `<tr class="animated-row" style="--delay: ${index * 0.08}s; --airline-color: ${rowColor};">
+            <td><div class="airline-cell">${logoHtml}<span class="airline-name">${airlineName}</span></div></td>
             <td>${flight.vuelo_llegada || '-'}</td>
             <td>${flight.fecha_llegada || '-'}</td>
             <td>${flight.hora_llegada || '-'}</td>

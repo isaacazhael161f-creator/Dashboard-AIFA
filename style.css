@@ -45,9 +45,12 @@ body {
 /* ==========================================================================
    Login
    ========================================================================== */
-.login-screen { background-image: url('https://images.unsplash.com/photo-1569154941061-e231b4725ef1?q=80&w=2070'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; }
+.login-screen { background-image: url('images/pistas_aifa.jpg'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; }
 .login-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 20, 0.6); }
 .login-container { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-radius: 15px; padding: 2.5rem; width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); text-align: center; z-index: 1; border: 1px solid rgba(255, 255, 255, 0.2); }
+.login-hero { position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
+.login-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0)); pointer-events: none; }
+.login-hero-img { display: block; width: 100%; height: 140px; object-fit: cover; }
 .login-logo { width: 90px; height: 90px; object-fit: contain; margin-bottom: 1rem; border-radius: 50%; border: 4px solid #003366; padding: 5px; background: #f8f9fa; }
 #login-title { font-family: var(--font-family-mono); font-weight: bold; color: #002244; border-right: 3px solid #002244; white-space: nowrap; overflow: hidden; display: inline-block; margin: 0 auto 0.5rem; letter-spacing: .1em; animation: typing 3s steps(15, end), blink-caret .75s step-end infinite; }
 @keyframes typing { from { width: 0 } to { width: 100% } }
@@ -165,6 +168,81 @@ body.dark-mode .table-container-tech thead th { background: linear-gradient(to b
 .table-container-tech tbody tr:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 4px 10px rgba(0,0,0,0.1); background-color: var(--body-bg); }
 .table-container-tech .airline-dot { width: 8px; height: 8px; vertical-align: middle; border-radius: 50%; margin-right: 8px; display: inline-block;}
 
+/* Airline logo inline in cells/cards */
+.airline-cell { display: inline-flex; align-items: center; gap: 8px; }
+/* Tamaños de logo: pensado para simular pantallas de aeropuerto */
+.airline-logo { width: 36px; height: 36px; object-fit: contain; background: transparent; }
+.airline-logo.sm { width: 30px; height: 30px; }
+.airline-logo.md { width: 44px; height: 44px; }
+.airline-logo.lg { width: 64px; height: 64px; }
+.airline-logo.xl { width: 80px; height: 80px; }
+.table-container-tech td:first-child .airline-logo { filter: none; }
+/* En modo oscuro algunos logos claros se ven lavados; aumentamos contraste y leve sombra */
+body.dark-mode .table-container-tech td:first-child .airline-logo { filter: brightness(0.98) contrast(1.08) saturate(1.02) drop-shadow(0 0 2px rgba(0,0,0,0.35)); }
+
+/* En celdas: si hay logo, el nombre puede omitirse vía JS; aquí aseguramos buen alineado */
+.table-container-tech td:first-child .airline-cell { min-height: 72px; }
+
+/* Modo pantalla de aeropuerto (FIDS-like) */
+/* FIDS-like global styling (siempre activo) */
+:root {
+   --fids-row-height: 84px;
+   /* Colores sutiles para franjas de filas en modo claro */
+   --fids-row-odd-bg: rgba(0, 0, 0, 0.06);
+   --fids-row-even-bg: rgba(0, 0, 0, 0.025);
+}
+.table-container-tech table { font-size: 1.1rem; letter-spacing: 0.4px; }
+.table-container-tech tbody tr { height: var(--fids-row-height); }
+.table-container-tech td:first-child .airline-cell { min-height: var(--fids-row-height); }
+.airline-logo.lg { width: 72px; height: 72px; }
+.airline-logo.xl { width: 92px; height: 92px; }
+.table-container-tech thead th { font-size: 0.9rem; letter-spacing: 0.6px; }
+.table-container-tech tbody tr:hover { transform: none; box-shadow: none; }
+/* Centrar todo el contenido en tablas de itinerario/resumen */
+.table-container-tech table th,
+.table-container-tech table td { text-align: center; vertical-align: middle; }
+.table-container-tech table td .airline-cell { justify-content: center; }
+/* Franjas por fila (una fuerte, otra suave) */
+.table-container-tech tbody tr:nth-child(odd) { background-color: var(--fids-row-odd-bg); }
+.table-container-tech tbody tr:nth-child(even) { background-color: var(--fids-row-even-bg); }
+/* Conservar franja al hacer hover */
+.table-container-tech tbody tr:nth-child(odd):hover { background-color: var(--fids-row-odd-bg); }
+.table-container-tech tbody tr:nth-child(even):hover { background-color: var(--fids-row-even-bg); }
+/* Ajuste de contraste en modo oscuro */
+body.dark-mode { --fids-row-odd-bg: rgba(255, 255, 255, 0.06); --fids-row-even-bg: rgba(255, 255, 255, 0.035); }
+
+/* ================== Itinerario (Inicio) — Encabezados estilo FIDS en azul ================== */
+#passenger-itinerary-container .table thead th,
+#cargo-itinerary-container .table thead th {
+   background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-color-dark) 100%) !important;
+   color: #fff !important;
+   text-transform: uppercase;
+   font-weight: 700;
+   letter-spacing: .7px;
+   border-bottom: 2px solid var(--primary-color-dark) !important;
+}
+body.dark-mode #passenger-itinerary-container .table thead th,
+body.dark-mode #cargo-itinerary-container .table thead th {
+   background: linear-gradient(180deg, #2a5fa3 0%, #0d2d56 100%) !important; /* tonos azules adaptados para contraste en oscuro */
+   border-bottom-color: #0d2d56 !important;
+}
+
+/* Mejor legibilidad numérica (alineación de dígitos) y tamaño */
+#passenger-itinerary-container .table,
+#cargo-itinerary-container .table {
+   font-variant-numeric: tabular-nums; /* dígitos de ancho fijo */
+   font-family: 'Roboto Condensed', var(--font-family-base), system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+#passenger-itinerary-container .table td,
+#cargo-itinerary-container .table td {
+   font-weight: 500;
+}
+
+/* Ocultar nombre y punto de color cuando el logo esté disponible (JS añade clases) */
+.airline-cell.has-logo .airline-name { display: none; }
+.airline-header.airline-has-logo .airline-name { display: none; }
+.airline-header.airline-has-logo .airline-dot { display: none; }
+
 /* ==========================================================================
    Barra Lateral Plegable
    ========================================================================== */
@@ -276,6 +354,20 @@ body.dark-mode .section-icon { box-shadow:0 2px 8px rgba(0,0,0,0.4); }
 .plane-orbit { position:relative; width:200px; height:200px; margin:0 auto 1rem; }
 .plane-orbit .orbit-ring { position:absolute; inset:0; border:4px solid rgba(255,255,255,0.15); border-top-color: var(--primary-color); border-right-color: rgba(255,255,255,0.28); border-bottom-color: var(--primary-color-dark); border-left-color: rgba(255,255,255,0.05); border-radius:50%; animation: ringSpin 14s linear infinite; box-shadow:0 0 14px rgba(255,255,255,0.15), 0 0 28px rgba(0,136,255,0.25) inset; backdrop-filter: blur(2px); }
 .plane-orbit .plane-icon { position:absolute; left:50%; top:50%; font-size:42px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.55)) drop-shadow(0 0 6px rgba(255,255,255,0.35)); animation: planeOrbit 5s linear infinite; }
+/* AIFA logo dentro del loader */
+.plane-orbit .loader-aifa-logo {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 110px;
+   height: 110px;
+   object-fit: cover;
+   border-radius: 50%;
+      border: 2px solid var(--primary-color);
+   /* quitar borde; conservar glow suave */
+   box-shadow: 0 10px 22px rgba(0,0,0,0.35), 0 0 28px rgba(13,45,86,0.42);
+}
 @keyframes planeOrbit {
   0%   { transform: translate(-50%, -50%) rotate(0deg)   translateX(86px) rotate(90deg)  rotate(0deg); }
   12.5%{ transform: translate(-50%, -50%) rotate(45deg)  translateX(86px) rotate(90deg)  rotate(-10deg); }
